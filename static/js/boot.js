@@ -60,7 +60,10 @@ myGame.boot.prototype = {
         playerData.votesPerClick = 1;
         playerData.trumpVotes = 0;
         playerData.clintonVotes = 0;
-        playerData.unsentVotes = 0;
+        playerData.unsentVotes = {
+            trump: 0, 
+            clinton: 0
+        };
     }
 
 }

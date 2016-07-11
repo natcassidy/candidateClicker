@@ -15,6 +15,8 @@ myGame.preloader.prototype = {
         this.load.image('trump', 'static/images/trump.png');
         this.load.image('upgradeBar', 'static/images/upgrade bar.png');
 
+        this.load.image('clickMe', 'static/images/block2.png');
+
     },
 
     create: function() {
