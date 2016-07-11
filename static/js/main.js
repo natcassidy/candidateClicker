@@ -48,7 +48,7 @@ myGame.main.prototype = {
                                 "Your Votes: " + playerData.trumpVotes);
         this.playerTVotesText.anchor.setTo(0, 0.5);
         this.trumpText = game.add.text(this.tVotesTotalText.x, 
-                                        this.tVotesTotalText.y - this.trumpText.height, 
+                                        this.tVotesTotalText.y - this.playerTVotesText.height, 
                                         "Trump")
         this.trumpText.anchor.setTo(0.5, 0.5);
 
@@ -56,11 +56,11 @@ myGame.main.prototype = {
         this.cVotesTotalText.anchor.setTo(0.5, 0.5);
         this.playerCVotesText = game.add.text(
                                 this.cVotesTotalText.x, 
-                                this.cVotesTotalText.y + this.cVotesTotalText.height, 
+                                this.cVotesTotalText.y + this.playerTVotesText.height, 
                                 "Your Votes: " + playerData.clintonVotes);
         this.playerCVotesText.anchor.setTo(1, 0.5);
         this.clintonText = game.add.text(this.cVotesTotalText.x, 
-                                        this.cVotesTotalText.y - this.clintonText.height, 
+                                        this.cVotesTotalText.y - this.playerTVotesText, 
                                         "Clinton")
         this.clintonText.anchor.setTo(0.5, 0.5);
 
