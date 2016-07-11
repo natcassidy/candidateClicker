@@ -10,6 +10,10 @@ myGame.preloader.prototype = {
         this.text = this.add.text(game.width/2, game.height/2, "Loading ...", { fill: '#ffffff' });
         this.text.anchor.set(0.5);
 
+        this.load.image('background', 'static/images/background.png');
+        this.load.image('hillary', 'static/images/hillary1.png');
+        this.load.image('trump', 'static/images/trump.png');
+
     },
 
     create: function() {
@@ -29,5 +33,6 @@ myGame.preloader.prototype = {
 
     loadComplete: function() {
         this.text.setText("Load Complete!");
+        //set timer to make text disappear then start branding animations
     }
 }

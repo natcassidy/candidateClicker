@@ -57,22 +57,7 @@ myGame.boot.prototype = {
 
     newCookieProfile: function() {
         playerData.username = this.makeId();
-        playerData.returning = true;
-        playerData.currentLevel = 1;
-        playerData.highestLevel = 1;
-        playerData.runUpgrades = {
-            attackSpeed: 1,
-            attackDamage: 1
-        };
-        playerData.permUpgrades = {
-            attackSpeed: 1,
-            attackDamage: 1
-        };
-        playerData.money = 0;
-        playerData.gear = {
-            equipped = {},
-            held = {}
-        };
+        playerData.votesPerClick = 1;
     }
 
 }

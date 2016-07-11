@@ -1,0 +1,4 @@
+currency available for upgrades
+total votes per candidate
+clicks per second
+votes per click

@@ -7,7 +7,7 @@ myGame.mainMenu.prototype = {
     },
 
     create: function() {
-        this.goToMain;
+        this.goToMain();
     },
 
     update: function() {
