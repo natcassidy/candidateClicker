@@ -7,12 +7,14 @@ myGame.mainMenu.prototype = {
     },
 
     create: function() {
-        this.selectionMade = true;
+        this.goToMain;
     },
 
     update: function() {
-        if (this.selectionMade) {
-            this.state.start("main", true, false);
-        }
+
     },
+
+    goToMain: function() {
+        this.state.start('main', true, false);
+    }
 }
