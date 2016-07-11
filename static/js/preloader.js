@@ -13,6 +13,7 @@ myGame.preloader.prototype = {
         this.load.image('background', 'static/images/background.png');
         this.load.image('hillary', 'static/images/hillary1.png');
         this.load.image('trump', 'static/images/trump.png');
+        this.load.image('upgradeBar', 'static/images/upgrade bar.png');
 
     },
 
