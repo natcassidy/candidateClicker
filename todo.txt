@@ -1,4 +1,5 @@
 currency available for upgrades
+    implement increases on clicks
 total votes per candidate
 clicks per second
 votes per click

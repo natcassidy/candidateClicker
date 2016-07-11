@@ -58,6 +58,9 @@ myGame.boot.prototype = {
     newCookieProfile: function() {
         playerData.username = this.makeId();
         playerData.votesPerClick = 1;
+        playerData.trumpVotes = 0;
+        playerData.clintonVotes = 0;
+        playerData.unsentVotes = 0;
     }
 
 }

@@ -26,5 +26,17 @@ myGame.main.prototype = {
 
     returnToMenu: function() {
         this.state.start('mainMenu', true, false);
+    },
+
+    clickTrump: function() {
+        playerData.unsentVotes += playerData.votesPerClick;
+        playerData.trumpVotes += playerData.votesPerClick;
+        //currency changes
+    },
+
+    clickClinton: function() {
+        playerData.unsentVotes += playerData.votesPerClick;
+        playerData.clintonVotes += playerData.votesPerClick;
+        //currency changes
     }
 }
