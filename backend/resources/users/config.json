@@ -56,6 +56,14 @@
 			"required": false,
 			"id": "upgrades",
 			"order": 6
+		},
+		"voteChange": {
+			"name": "voteChange",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "voteChange",
+			"order": 7
 		}
 	}
 }

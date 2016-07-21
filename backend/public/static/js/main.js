@@ -7,8 +7,6 @@ myGame.main.prototype = {
 
     create: function() { // -CREATE-
 
-        console.log(myGame.main.prototype);
-
         game.stage.setBackgroundColor(0x2d2d2d);
 
         this.lost = false;
@@ -45,29 +43,29 @@ myGame.main.prototype = {
         var font = { font: 'Pixel', fill: '#ffffff' };
 
         // Total vote text
-        this.tVTText = game.add.text(
+        tVTText = game.add.text(
             Math.floor(this.wTenth * 0.2),
             Math.floor(this.hTenth * 1.3),
             'Trump Votes: ',
             font);
 
-        this.cVTText = game.add.text(
+        cVTText = game.add.text(
             Math.floor(this.wTenth * 0.2),
-            this.tVTText.y + this.tVTText.height,
+            tVTText.y + tVTText.height,
             'Clinton Votes: ',
             font);
 
         // Player vote text
         this.playerVotesText = game.add.text(
-            this.tVTText.x + this.tVTText.width + this.hTenth,  //X POSITION
-            this.tVTText.y,                                     //Y Position
+            tVTText.x + tVTText.width + this.hTenth,  //X POSITION
+            tVTText.y,                                     //Y Position
             "Your Votes: " + playerData.votes,
             font);
 
         // Fancy Pen text
         this.fancyPenText = game.add.text(
-            this.tVTText.x + this.tVTText.width + this.hTenth,  //X POSITION
-            this.cVTText.y,                                     //Y Position
+            tVTText.x + tVTText.width + this.hTenth,  //X POSITION
+            cVTText.y,                                     //Y Position
             "Fancy Pens: " + playerData.fancyPens);
         this.fancyPenText.visible = false;
 
@@ -77,15 +75,10 @@ myGame.main.prototype = {
         // even : calculate votes
         this.frameCounter = 0;
 
-
-        // temporary controls to replace upgrade buying interface
-        this.one = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
-        this.one.onDown.add(this.resetVotes, this);
-
         save(playerData);
-        this.serverCall(playerData.unsentVotes);
+        this.serverCall();
 
-        playerData.upgrades[0][0] = 0; //campaignStaff is index 0, count is the next index
+        playerData.upgrades[0][0] = 1; //campaignStaff is index 0, count is the next index
 /*
         this.upgradeBarCalc(this.selectionArray, 9, this.leftButton, this.rightButton);
 
@@ -109,62 +102,44 @@ myGame.main.prototype = {
     update: function() { // -UPDATE-
         this.frameCounter++;
 
-        if (this.frameCounter === 600) {
+        if (this.frameCounter === 60) {
             this.frameCounter = 0;
             this.serverCall();
         }
 
         // updating vote totals
-        if ((this.frameCounter % 2) === 0) {
-            this.addVotes(playerData.unsentVotes,
-            playerData.votes,
-            playerData.upgrades);
+        if ((this.frameCounter % 4) === 0) {
+            this.addVotes(playerData.upgrades);
         }
     },
 
     clicked: function() {
-        unsentVotes += playerData.votesPerClick;
-        this.playerVotesText.setText(
-            "Your Votes: " + Math.floor(playerData.votes + playerData.unsentVotes));
+        playerData.votes += playerData.votesPerClick;
+        this.playerVotesText.setText("Your Votes: " + Math.floor(playerData.votes));
         //currency changes
     },
 
-    addVotes: function(unsentVotes, votes, upgrades) {
+    addVotes: function(upgrades) {
         //increasing votes from passive sources
+        var change;
             for (var a in upgrades) {
-                var change = upgrades[a].count * upgrades[a].ratio / upgrades[a].rate;
-                unsentVotes += change;
-                votes += change;
+                change = upgrades[a][0] * upgrades[a][1] / upgrades[a][2];
+                playerData.votes += change;
             }
-        this.playerVotesText.setText("Your Votes: " + Math.floor(votes + unsentVotes));
+        this.playerVotesText.setText("Your Votes: " + Math.floor(playerData.votes));
 
     },
 
     serverCall: function() {
-
-        var totalVotes;
-
+        var totalVotes = {};
         dpd.votes.get(function (result, err) {
             if(err) return console.log(err);
-            totalVotes = result;
-
-            this.tVTText.setText('Trump Votes: ' + totalVotes.trump);
-            this.cVTText.setText('Clinton Votes: ' + totalVotes.clinton);
+            totalVotes = result[0];
+            tVTText.setText('Trump Votes: ' + totalVotes.trump);
+            cVTText.setText('Clinton Votes: ' + totalVotes.clinton);
         });
 
         save(playerData);
-
-    },
-
-    resetVotes: function() {
-        playerData.votes = {
-            trump: 0,
-            clinton: 0
-        };
-        playerData.unsentVotes = {
-            trump: 0,
-            clinton: 0
-        };
     },
 
     buyUpgrade: function(upgrade) {

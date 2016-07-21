@@ -11,3 +11,6 @@ var upgradecatalogue = [
 ];
 
 var upgradeKey = ['count', 'ratio', 'rate', 'upgrades'];
+
+var tVTText;
+var cVTText;

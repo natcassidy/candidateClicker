@@ -8,22 +8,15 @@ myGame.boot.prototype = {
         //PLAYER DATA
         playerData = {}; //Global data storage object for persistance between states
 
-
         var kongregate = null;
         var googlePlay = null;
         var iOS = null;
 
-        //PLAYER DATA INSTANTIATED IF NOT PRE-EXISTING
-        /*
-
-        if(!playerData.returning){
-
-        */
         //saved to a cookie ENCRYPT/DECRYPT THIS LATER!
         if (document.cookie) {
             playerData = JSON.parse(this.fixFormat(document.cookie));
         } else { //Creates new user profile, will generate random username for player
-            this.newCookieProfile();
+            this.newProfile();
         }
 
         login(playerData.credentials);
@@ -40,7 +33,7 @@ myGame.boot.prototype = {
         return cookieContents;
     },
 
-    newCookieProfile: function() {
+    newProfile: function() {
         playerData.credentials = {};
 
         var playerInput = false;
@@ -68,15 +61,16 @@ myGame.boot.prototype = {
         playerData.votes = 0;
         playerData.unsentVotes = 0;
         playerData.upgrades = [
-            [0,1,600,''],
-            [0,5,600,''],
-            [0,25,600,''],
-            [0,125,600,''],
-            [0,625,600,''],
-            [0,3125,600,''],
-            [0,15625,600,'']
+            [0,1,15,''],
+            [0,5,15,''],
+            [0,25,15,''],
+            [0,125,15,''],
+            [0,625,15,''],
+            [0,3125,15,''],
+            [0,15625,15,'']
         ];
-        playerData.id = '';
+        playerData.id;
+        playerData.lastVotes = 0;
 
         save(playerData);
     },
