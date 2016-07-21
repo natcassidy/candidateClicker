@@ -50,8 +50,8 @@ var login = function(credentials) {
     //Needs to handle kongregate users automatically
 
     dpd.users.login({
-        "username": credentials.username,
-        "password": credentials.password
+        username: credentials.username,
+        password: credentials.password
     },  function(result, error) {
         // Do something
     });
