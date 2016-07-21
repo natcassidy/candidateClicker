@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Candidate Clicker!</title>
+	<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.1/phaser.min.js'></script>
+    <script type='text/javascript' src='/dpd.js'></script>
+
+	<script type='text/javascript' src='/static/js/globalFunctions.js'></script>
+	<script type='text/javascript' src='/static/js/serverDetails.js'></script>
+
+    <!--<script type='text/javascript' src='static/js/phaser.min.js'></script>-->
+    <script type='text/javascript' src='/static/js/boot.js'></script>
+    <script type='text/javascript' src='/static/js/preloader.js'></script>
+    <script type='text/javascript' src='/static/js/mainMenu.js'></script>
+    <script type='text/javascript' src='/static/js/main.js'></script>
+</head>
+<body>
+
+<div id="Candidate Clicker!">
+<script type='text/javascript'>
+
+    var game = new Phaser.Game(640, 480);
+
+    game.state.add('boot', myGame.boot);
+    game.state.add('preloader', myGame.preloader);
+    game.state.add('mainMenu', myGame.mainMenu);
+    game.state.add('main', myGame.main);
+
+    game.state.start('boot');
+
+</script>
+</div>
+
+</body>
+</html>

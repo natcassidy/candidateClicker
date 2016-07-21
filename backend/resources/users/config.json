@@ -1,0 +1,61 @@
+{
+	"type": "UserCollection",
+	"properties": {
+		"selectedCandidate": {
+			"name": "selectedCandidate",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "selectedCandidate",
+			"order": 0
+		},
+		"voteCredits": {
+			"name": "voteCredits",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "voteCredits",
+			"order": 1
+		},
+		"votesPerClick": {
+			"name": "votesPerClick",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "votesPerClick",
+			"order": 2
+		},
+		"fancyPens": {
+			"name": "fancyPens",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "fancyPens",
+			"order": 3
+		},
+		"restarts": {
+			"name": "restarts",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "restarts",
+			"order": 4
+		},
+		"votes": {
+			"name": "votes",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "votes",
+			"order": 5
+		},
+		"upgrades": {
+			"name": "upgrades",
+			"type": "array",
+			"typeLabel": "array",
+			"required": false,
+			"id": "upgrades",
+			"order": 6
+		}
+	}
+}

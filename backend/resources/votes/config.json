@@ -1,0 +1,21 @@
+{
+	"type": "Collection",
+	"properties": {
+		"trump": {
+			"name": "trump",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "trump",
+			"order": 0
+		},
+		"clinton": {
+			"name": "clinton",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "clinton",
+			"order": 1
+		}
+	}
+}

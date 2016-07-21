@@ -1,12 +1,13 @@
 var myGame = {};
 
-myGame.boot = function (game) {};
+myGame.boot = function(game) {};
 
 myGame.boot.prototype = {
-    
+
     preload: function() {
         //PLAYER DATA
         playerData = {}; //Global data storage object for persistance between states
+
 
         var kongregate = null;
         var googlePlay = null;
@@ -14,24 +15,18 @@ myGame.boot.prototype = {
 
         //PLAYER DATA INSTANTIATED IF NOT PRE-EXISTING
         /*
-        
+
         if(!playerData.returning){
 
         */
-        if (kongregate) {}
-
-        else if (googlePlay) {}
-
-        else if (iOS) {}
-
-        else { //saved to a cookie ENCRYPT/DECRYPT THIS LATER!
-            if (document.cookie) {
-                playerData.user = JSON.parse(this.fixFormat(document.cookie));
-            }
-            else { //Creates new user profile, will generate random username for player
-                this.newCookieProfile();
-            }
+        //saved to a cookie ENCRYPT/DECRYPT THIS LATER!
+        if (!document.cookie) {
+            playerData = JSON.parse(this.fixFormat(document.cookie));
+        } else { //Creates new user profile, will generate random username for player
+            this.newCookieProfile();
         }
+
+        login(playerData.credentials);
 
     },
 
@@ -39,31 +34,50 @@ myGame.boot.prototype = {
         this.state.start('preloader', true);
     },
 
-    makeId: function () {
-        var text = "";
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-        for( var i=0; i < 8; i++ )
-            text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-        return text;
-    },
-
-    fixFormat: function (cookieContents) {
+    fixFormat: function(cookieContents) {
         // removes the first 5 characters from cookieContents (s, a, v, e, =)
-            cookieContents = cookieContents.substr(5); //take everything after fifth character
+        cookieContents = cookieContents.substr(5); //take everything after fifth character
         return cookieContents;
     },
 
     newCookieProfile: function() {
-        playerData.username = this.makeId();
-        playerData.votesPerClick = 1;
-        playerData.trumpVotes = 0;
-        playerData.clintonVotes = 0;
-        playerData.unsentVotes = {
-            trump: 0, 
-            clinton: 0
-        };
-    }
+        playerData.credentials = {};
 
-}
+        var playerInput = false;
+
+        if (!playerInput){
+            playerData.credentials.username = makeRandString(8);
+            playerData.credentials.password = makeRandString(16);
+        } else {
+            var compare = '';
+            playerData.credentials.password = ' ';
+            while (compare != playerData.credentials.password) {
+                playerData.credentials.username = prompt("Pick your username.");
+                playerData.credentials.password = prompt("Pick your password.");
+                compare = prompt("Re-enter your password.");
+                if (compare != playerData.credentials.password) {
+                    alert("Passwords did not match, please try again.");
+                }
+            }
+        }
+        playerData.selectedCandidate = '';
+        playerData.voteCredits = 0;
+        playerData.votesPerClick = 1;
+        playerData.fancyPens = 0; //permanent boosts gained by restarting
+        playerData.restarts = 0;
+        playerData.votes = 0;
+        playerData.unsentVotes = 0;
+        playerData.upgrades = [
+            [0,1,600,''],
+            [0,5,600,''],
+            [0,25,600,''],
+            [0,125,600,''],
+            [0,625,600,''],
+            [0,3125,600,''],
+            [0,15625,600,'']
+        ];
+        playerData.id = '';
+
+        save(playerData);
+    },
+};
