@@ -57,6 +57,9 @@ myGame.preloader.prototype = {
         this.load.image('upgradeBar', 'static/images/cclicker/web/upgradebar.png');
         this.load.image('upgradeBarDark', 'static/images/cclicker/web/upgradebardark.png');
 
+
+        this.load.audio('gameMusic', 'static/assets/audio/trump/gameMusic.wav');
+        this.load.audio('menuMusic', 'static/assets/audio/trump/menuMusic.wav');
     },
 
     create: function() {
