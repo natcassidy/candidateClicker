@@ -20,6 +20,16 @@ myGame.main.prototype = {
         this.hQuarter = Math.floor(game.height / 4);
         this.hTenth = Math.floor(game.height / 10);
 
+
+
+        //music
+
+        this.music = game.add.audio('gameMusic');
+
+        this.music.loop = true;
+
+        this.music.play();
+
         // Background images --HANDLES SELECTION OF CANDIDATE FROM MAINMENU--
         if (playerData.selectedCandidate === 'trump'){
             this.bg = game.add.image(0, 0, 'backgroundTrump');
@@ -73,92 +83,92 @@ myGame.main.prototype = {
 
         //text for upgrades
 
-        this.doorText = game.add.text(460,440,'Door to Door Upgrade Price: ' + fixNum(prArr[0][0]), font)
-        this.doorText.visible = true;
+        //this.doorText = game.add.text(460,440,'Door to Door Upgrade Price: ' + fixNum(prArr[0][0]), font)
+        //this.doorText.visible = true;
 
-        this.staffText = game.add.text(460,440,'Campaign Staff Upgrade Price: ' + fixNum(prArr[1][0]), font)
-        this.staffText.visible = false;
+        //this.staffText = game.add.text(460,440,'Campaign Staff Upgrade Price: ' + fixNum(prArr[1][0]), font)
+        //this.staffText.visible = false;
 
-        this.merchandiseText = game.add.text(460,440,'Free Merchandise Upgrade Price: ' + fixNum(prArr[2][0]), font)
-        this.merchandiseText.visible = false;
+        //this.merchandiseText = game.add.text(460,440,'Free Merchandise Upgrade Price: ' + fixNum(prArr[2][0]), font)
+        //this.merchandiseText.visible = false;
 
-        this.picketText = game.add.text(460,440,'Picket Signs Upgrade Price: ' + fixNum(prArr[3][0]), font)
-        this.picketText.visible = false;
+        //this.picketText = game.add.text(460,440,'Picket Signs Upgrade Price: ' + fixNum(prArr[3][0]), font)
+        //this.picketText.visible = false;
 
-        this.radioText = game.add.text(460,440,'Radio Ads Upgrade Price: ' + fixNum(prArr[4][0]), font)
-        this.radioText.visible = false;
+        //this.radioText = game.add.text(460,440,'Radio Ads Upgrade Price: ' + fixNum(prArr[4][0]), font)
+        //this.radioText.visible = false;
 
-        this.tvText = game.add.text(460,440,'TV Ads Upgrade Price: ' + fixNum(prArr[5][0]), font)
-        this.tvText.visible = false;
+        //this.tvText = game.add.text(460,440,'TV Ads Upgrade Price: ' + fixNum(prArr[5][0]), font)
+        //this.tvText.visible = false;
 
-        this.endorsementText = game.add.text(460,440,'Political Endorsement Upgrade Price: ' + fixNum(prArr[6][0]), font)
-        this.endorsementText.visible = false;
+        //this.endorsementText = game.add.text(460,440,'Political Endorsement Upgrade Price: ' + fixNum(prArr[6][0]), font)
+        //this.endorsementText.visible = false;
 
-        this.allianceText = game.add.text(460,440,'Political Alliance Upgrade Price: ' + fixNum(prArr[7][0]), font)
-        this.allianceText.visible = false;
+        //this.allianceText = game.add.text(460,440,'Political Alliance Upgrade Price: ' + fixNum(prArr[7][0]), font)
+        //this.allianceText.visible = false;
 
-        this.cRallyText = game.add.text(460,440,'Clinton Rally Upgrade Price: ' + fixNum(prArr[8][0]), font)
-        this.cRallyText.visible = false;
+        //this.cRallyText = game.add.text(460,440,'Clinton Rally Upgrade Price: ' + fixNum(prArr[8][0]), font)
+        //this.cRallyText.visible = false;
 
-        this.tRallyText = game.add.text(460,440,'Trump Rally Upgrade Price: ' + fixNum(prArr[8][0]), font)
-        this.tRallyText.visible = false;
+        //this.tRallyText = game.add.text(460,440,'Trump Rally Upgrade Price: ' + fixNum(prArr[8][0]), font)
+        //this.tRallyText.visible = false;
 
-        this.voteMakerText = game.add.text(460,440,'Vote Maker Upgrade Price: ' + fixNum(prArr[9][0]), font)
-        this.voteMakerText.visible = false;
+        //this.voteMakerText = game.add.text(460,440,'Vote Maker Upgrade Price: ' + fixNum(prArr[9][0]), font)
+        //this.voteMakerText.visible = false;
 
-        this.emailServerText = game.add.text(460,440,'Email Server Upgrade Price: ' + fixNum(prArr[9][0]), font)
-        this.emailServerText.visible = false;
-
-
+        //this.emailServerText = game.add.text(460,440,'Email Server Upgrade Price: ' + fixNum(prArr[9][0]), font)
+        //this.emailServerText.visible = false;
 
 
-        this.doorText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-            font)
-        this.doorText.visible = false;
 
-        this.staffText = game.add.text(460,455,'Upgrade Rate:  ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-            font)
-        this.staffText.visible = false;
 
-        this.merchandiseText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-            font)
-        this.merchandiseText.visible = false;
+        //this.doorText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
+            //font)
+        //this.doorText.visible = true;
 
-        this.picketText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-            font)
-        this.picketText.visible = false;
+        //this.staffText = game.add.text(460,455,'Upgrade Rate:  ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
+            //font)
+        //this.staffText.visible = false;
 
-        this.radioText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-            font)
-        this.radioText.visible = false;
+        //this.merchandiseText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
+           // font)
+        //this.merchandiseText.visible = false;
 
-        this.tvText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-            font)
-        this.tvText.visible = false;
+        //this.picketText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
+          //  font)
+       // this.picketText.visible = false;
 
-        this.endorsementText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-            font)
-        this.endorsementText.visible = false;
+        //this.radioText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
+            //font)
+        //this.radioText.visible = false;
 
-        this.allianceText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-            font)
-        this.allianceText.visible = false;
+        //this.tvText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
+           // font)
+       // this.tvText.visible = false;
 
-        this.cRallyText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-            font)
-        this.cRallyText.visible = false;
+       // this.endorsementText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
+       //     font)
+        //this.endorsementText.visible = false;
 
-        this.tRallyText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-            font)
-        this.tRallyText.visible = false;
+        //this.allianceText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
+//font)
+       // this.allianceText.visible = false;
 
-        this.voteMakerText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-            font)
-        this.voteMakerText.visible = false;
+       // this.cRallyText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
+           // font)
+//this.cRallyText.visible = false;
 
-        this.emailServerText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-            font)
-        this.emailServerText.visible = false;
+        //this.tRallyText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
+         //   font)
+        //this.tRallyText.visible = false;
+
+       // this.voteMakerText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
+//font)
+       // this.voteMakerText.visible = false;
+
+       // this.emailServerText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
+        //    font)
+        //this.emailServerText.visible = false;
 
 
 

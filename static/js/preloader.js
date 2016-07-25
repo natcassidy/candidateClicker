@@ -26,6 +26,10 @@ myGame.preloader.prototype = {
         this.load.onFileComplete.add(this.fileComplete, this);
         this.load.onLoadComplete.add(this.loadComplete, this);
 
+        this.text = this.add.text(game.width / 2, game.height / 2.5, "Music By Joe Markle", {
+        fill: '#ffffff' 
+        });
+
         this.text = this.add.text(game.width / 2, game.height / 2, "Loading ...", {
             fill: '#ffffff'
         });
@@ -37,29 +41,56 @@ myGame.preloader.prototype = {
 
         this.load.image('backgroundTrump', 'static/images/cclicker/web/background1.png');
         this.load.image('backgroundClinton', 'static/images/cclicker/web/background2.png');
-        this.load.image('door', 'static/images/cclicker/web/door.png');
-        this.load.image('emailServer', 'static/images/cclicker/web/emailServer.png');
         this.load.image('handShake', 'static/images/cclicker/web/handshake.png');
         this.load.image('medal', 'static/images/cclicker/web/medal.png');
-        this.load.image('radio', 'static/images/cclicker/web/radio.png');
         this.load.image('rallyClinton', 'static/images/cclicker/web/rallyClinton.png');
         this.load.image('rallyTrump', 'static/images/cclicker/web/rallyTrump.png');
-        this.load.image('staff1', 'static/images/cclicker/web/staff1.png');
-        this.load.image('staff2', 'static/images/cclicker/web/staff2.png');
-        this.load.image('starDark', 'static/images/cclicker/web/stardark.png');
-        this.load.image('starNormal', 'static/images/cclicker/web/starnormal.png');
-        this.load.image('starUnnormal', 'static/images/cclicker/web/starunnormal.png');
-        this.load.image('starUnnormalGrey', 'static/images/cclicker/web/starunnormalgrey.png');
-        this.load.image('trumpMachine', 'static/images/cclicker/web/trumpMachine.png');
-        this.load.image('tShirt', 'static/images/cclicker/web/tshirt2.png');
-        this.load.image('tv', 'static/images/cclicker/web/tv.png');
-        this.load.image('u', 'static/images/cclicker/web/u.png');
+        this.load.image('starBought', 'static/images/cclicker/web/starBought.png');
+        this.load.image('starBuyable', 'static/images/cclicker/web/starBuyable.png');
+        this.load.image('starTooCostly', 'static/images/cclicker/web/starTooCostly.png');
+        this.load.image('starLocked', 'static/images/cclicker/web/starLocked.png');
         this.load.image('upgradeBar', 'static/images/cclicker/web/upgradebar.png');
         this.load.image('upgradeBarDark', 'static/images/cclicker/web/upgradebardark.png');
 
+        //images used in button array
+        this.load.image('campaignStaff', 'static/images/cclicker/web/staff1.png');
+        this.load.image('campaignStaff2', 'static/images/cclicker/web/staff2.png');
 
-        this.load.audio('gameMusic', 'static/assets/audio/trump/gameMusic.wav');
-        this.load.audio('menuMusic', 'static/assets/audio/trump/menuMusic.wav');
+        this.load.image('tShirt', 'static/images/cclicker/web/tshirt2.png');
+
+        this.load.image('signT', 'static/images/cclicker/web/signTrump.png');
+        this.load.image('signC', 'static/images/cclicker/web/signClinton.png');
+
+        this.load.image('radio', 'static/images/cclicker/web/radio.png');
+
+        this.load.image('door', 'static/images/cclicker/web/door.png');
+
+        this.load.image('tv', 'static/images/cclicker/web/tv.png');
+
+        this.load.image('voteMaker', 'static/images/cclicker/web/trumpMachine.png');
+        this.load.image('emailServer', 'static/images/cclicker/web/emailServer.png');
+        this.load.image('alliance', 'static/images/cclicker/web/handshake.png');
+        this.load.image('endorsement', 'static/images/cclicker/web/medal.png');
+        this.load.image('rallyTrump', 'static/images/cclicker/web/rallyTrump.png');
+        this.load.image('rallyClinton', 'static/images/cclicker/web/rallyClinton.png');
+
+        this.load.image('chooseYour', 'static/images/cclicker/web/chooseYour.png');
+        this.load.image('president', 'static/images/cclicker/web/president.png');
+
+        //main menu
+
+        this.load.image('logo', 'static/images/cclicker/web/logo.png');
+        this.load.image('back1', 'static/images/cclicker/web/back1.png');
+
+        this.load.image('tHead', 'static/images/cclicker/web/tHead.png');
+        this.load.image('cHead', 'static/images/cclicker/web/cHead.png');
+
+        this.load.audio('gameMusic', 'static/audio/gameMusic.mp3');
+
+
+        //main menu
+
+        this.load.image('back1', 'static/images/cclicker/web/.png');
     },
 
     create: function() {

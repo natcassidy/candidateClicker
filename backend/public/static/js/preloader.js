@@ -26,6 +26,10 @@ myGame.preloader.prototype = {
         this.load.onFileComplete.add(this.fileComplete, this);
         this.load.onLoadComplete.add(this.loadComplete, this);
 
+        this.text = this.add.text(game.width / 2, game.height / 2.5, "Music By Joe Markle", {
+        fill: '#ffffff' 
+        });
+
         this.text = this.add.text(game.width / 2, game.height / 2, "Loading ...", {
             fill: '#ffffff'
         });
@@ -45,7 +49,6 @@ myGame.preloader.prototype = {
         this.load.image('starBuyable', 'static/images/cclicker/web/starBuyable.png');
         this.load.image('starTooCostly', 'static/images/cclicker/web/starTooCostly.png');
         this.load.image('starLocked', 'static/images/cclicker/web/starLocked.png');
-        this.load.image('u', 'static/images/cclicker/web/u.png');
         this.load.image('upgradeBar', 'static/images/cclicker/web/upgradebar.png');
         this.load.image('upgradeBarDark', 'static/images/cclicker/web/upgradebardark.png');
 
@@ -73,6 +76,7 @@ myGame.preloader.prototype = {
 
         this.load.image('chooseYour', 'static/images/cclicker/web/chooseYour.png');
         this.load.image('president', 'static/images/cclicker/web/president.png');
+
         //main menu
 
         this.load.image('logo', 'static/images/cclicker/web/logo.png');
@@ -80,6 +84,8 @@ myGame.preloader.prototype = {
 
         this.load.image('tHead', 'static/images/cclicker/web/tHead.png');
         this.load.image('cHead', 'static/images/cclicker/web/cHead.png');
+
+        this.load.audio('gameMusic', 'static/audio/gameMusic.mp3');
 
 
         //main menu
