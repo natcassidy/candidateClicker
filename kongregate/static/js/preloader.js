@@ -4,12 +4,9 @@ myGame.preloader = function(game) {};
 
 myGame.preloader.prototype = {
 
-
-
     preload: function() {
 
-
-        this.WebFontConfig = {
+    this.WebFontConfig = {
 
     //  'active' means all requested fonts have finished loading
     //  We set a 1 second delay before calling 'createText'.
@@ -21,7 +18,6 @@ myGame.preloader.prototype = {
       families: ['Pixel']
     }
 }
-
 
         this.load.onFileComplete.add(this.fileComplete, this);
         this.load.onLoadComplete.add(this.loadComplete, this);
@@ -86,7 +82,6 @@ myGame.preloader.prototype = {
         this.load.image('cHead', 'static/images/cclicker/web/cHead.png');
 
         this.load.audio('gameMusic', 'static/audio/gameMusic.mp3');
-
 
         //main menu
 

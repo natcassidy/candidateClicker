@@ -308,8 +308,6 @@ myGame.main.prototype = {
 
             but.frame = game.add.image(anchorXPos, Y, 'upgradeBar');
 
-            console.log(but.frame.right);
-
             but.buy = game.add.image(anchorXPos, Y, upgradeCatalogue[i][upKey]);
 
             heightDiff = Math.floor((but.frame.height - but.buy.height) / 2);
