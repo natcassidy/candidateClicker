@@ -435,46 +435,52 @@ myGame.main.prototype = {
             var but = buttons[0];
             but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[0][0]), smallFont);
             but.numText.anchor.setTo(1.4, 0.5);
+            but.numText.visible = false;
 
             var but = buttons[1];
             but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[1][0]), smallFont);
             but.numText.anchor.setTo(1.4, 0.5);
+            but.numText.visible = false;
 
             var but = buttons[2];
             but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[2][0]), smallFont);
             but.numText.anchor.setTo(1.4, 0.5);
+            but.numText.visible = false;
 
             var but = buttons[3];
             but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[3][0]), smallFont);
             but.numText.anchor.setTo(1.4, 0.5);
+            but.numText.visible = false;
 
             var but = buttons[4];
             but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[4][0]), smallFont);
             but.numText.anchor.setTo(1.4, 0.5);
+            but.numText.visible = false;
 
             var but = buttons[5];
             but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[5][0]), smallFont);
             but.numText.anchor.setTo(1.4, 0.5);
+            but.numText.visible = false;
 
             var but = buttons[6];
             but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[6][0]), smallFont);
             but.numText.anchor.setTo(1.4, 0.5);
+            but.numText.visible = false;
 
             var but = buttons[7];
             but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[7][0]), smallFont);
             but.numText.anchor.setTo(1.4, 0.5);
+            but.numText.visible = false;
 
             var but = buttons[8];
             but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[8][0]), smallFont);
             but.numText.anchor.setTo(1.4, 0.5);
+            but.numText.visible = false;
             
             var but = buttons[9];
             but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[9][0]), smallFont);
             but.numText.anchor.setTo(1.4, 0.5);
-
-            for (var h = 0; h < buttons.length; h++){
-                buttons[h].numText.visible = false;
-            }
+            but.numText.visible = false;
     }
 
 }
