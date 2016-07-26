@@ -4,14 +4,12 @@ myGame.mainMenu.prototype = {
 
     preload: function() {
 
-    
-
     },
 
     create: function() {
 
         // MENUMUSIC NOT IMPLEMENTED YET
-        //this.music = game.add.audio('menuMusic');
+        this.music = game.add.audio('gameMusic');
 
         this.music.play();
 
@@ -24,36 +22,38 @@ myGame.mainMenu.prototype = {
         game.add.image(90, 30, 'chooseYour');
         game.add.image(350, 30, 'president');
 
-        this.mainStart = this.add.sprite(396, 110, 'tHead');
-        this.mainStart.anchor.set(0.0);
-        this.mainStart.inputEnabled = true;
-        this.mainStart.events.onInputDown.add(this.trumpSelect, this);
+        this.pickTrump = this.add.sprite(396, 110, 'tHead');
+        this.pickTrump.anchor.set(0.0);
+        this.pickTrump.inputEnabled = true;
+        this.pickTrump.events.onInputDown.add(this.trumpSelect, this);
+
+        this.pickClinton = this.add.sprite(134, 110, 'cHead');
+        this.pickClinton.anchor.set(0.0);
+        this.pickClinton.inputEnabled = true;
+        this.pickClinton.events.onInputDown.add(this.clintonSelect, this);
 
 
-        this.mainStart = this.add.sprite(134, 110, 'cHead');
-        this.mainStart.anchor.set(0.0);
-        this.mainStart.inputEnabled = true;
-        this.mainStart.events.onInputDown.add(this.clintonSelect, this);
-
+        this.vol = this.add.sprite(20, 110, 'vol');
+        this.vol.anchor.set(0.0);
+        this.vol.inputEnabled = true;
+        this.vol.events.onInputDown.add(this.vol, this);
     },
 
     update: function() {
 
     },
 
-     
-    
-
     trumpSelect: function() {
-        playerData.selectedCandidate = 'trump'
+        playerData.selectedCandidate = 'trump';
         this.music.stop('gameMusic');
         this.state.start('main', true, false);
-        
+        save(playerData, true);
     },
 
     clintonSelect: function () {
-        playerData.selectedCandidate = 'clinton'
+        playerData.selectedCandidate = 'clinton';
         this.music.stop('gameMusic');
         this.state.start('main', true, false);
+        save(playerData, true);
     }
 };

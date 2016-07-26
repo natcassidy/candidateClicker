@@ -3,3 +3,7 @@ backend/.dpd/pids/mongod
 backend/.dpd/pids/mongod
 backend/data
 backend/.dpd
+backend/.dpd/pids/mongod
+*.0
+*.ns
+*.lock

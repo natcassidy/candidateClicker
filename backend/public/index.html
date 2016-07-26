@@ -3,8 +3,9 @@
 <head>
 	<meta charset="utf-8">
 	<title>Candidate Clicker!</title>
-	<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.1/phaser.min.js'></script>
-    <script type='text/javascript' src='/dpd.js'></script>
+	<!--<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.1/phaser.min.js'></script>-->
+    <script type='text/javascript' src='/static/js/phaser.js'></script>
+    <script type='text/javascript' src='http://52.32.25.29/dpd.js'></script>
 
     <!--globalFunctions needs to be BEFORE gameDataObjects-->
 	<script type='text/javascript' src='/static/js/globalFunctions.js'></script>
@@ -14,6 +15,10 @@
     <!--<script type='text/javascript' src='static/js/phaser.min.js'></script>-->
     <script type='text/javascript' src='/static/js/boot.js'></script>
     <script type='text/javascript' src='/static/js/preloader.js'></script>
+
+    <script type='text/javascript' src='/static/js/messageState.js'></script>
+
+    <script type='text/javascript' src='/static/js/messageState.js'></script>
     <script type='text/javascript' src='/static/js/mainMenu.js'></script>
     <script type='text/javascript' src='/static/js/main.js'></script>
 </head>
@@ -26,6 +31,7 @@
 
     game.state.add('boot', myGame.boot);
     game.state.add('preloader', myGame.preloader);
+    game.state.add('message', myGame.messageState);
     game.state.add('mainMenu', myGame.mainMenu);
     game.state.add('main', myGame.main);
 

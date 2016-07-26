@@ -1,6 +1,16 @@
+//Not a function. lawl.
+var buttons = []; //yep, I got desperate and made them global objects. Wooho
+
 // Global functions for referencing in states, etc.
 
-var save = function(data) {
+var save = function(data, firstUpdate) {
+    if (firstUpdate) {
+        dpd.users.put(
+            data.id,
+        {
+            "selectedCandidate": data.selectedCandidate
+        });
+    }
     document.cookie = "save=" + JSON.stringify(data);
     // These functions will return values, etc. and
     // add capability beyond that of the callback
@@ -164,9 +174,26 @@ var pCal = function(price, increment) {
     return Math.floor(price * 1.5);
 };
 
+var productionCalc = function(upgrade) {
+    var change;
+    var multiplier = 1;
+    for (var i = 0; i < upgrade[3].length; i++){
+        if (upgrade[3][i] === 1) { multiplier *= 2; }
+    }
+    change = upgrade[0] * upgrade[1] / upgrade[2] * multiplier;
+    return change;
+};
+
 // --FUNCTIONS FOR BUYING PASSIVE VOTERS IN MAIN--
 var buy = { prIncrease: 1.5 };
-buy.buyT1 = function() {
+buy.out = function() {
+    upgradeTexts[0].visible = false;
+    upgradeTexts[2].visible = false;
+};
+
+// TIER 1
+buy.t1 = {};
+buy.t1.buy = function() {
     var up = playerData.upgrades[0];
     if (playerData.voteCredits >= up[4][0][0]) {
         up[0] += 1;
@@ -174,10 +201,20 @@ buy.buyT1 = function() {
         up[4][0][0] = Math.floor(up[4][0][0] * buy.prIncrease); //increases price by 30%
         buttons[0].numText.setText(fixNum(playerData.upgrades[0][0]));
     }
-    console.log(up[0]);
+};
+buy.t1.over = function() {
+    var n = 0;
+    var up = playerData.upgrades[0];
+    var str = upgradeTexts.length - 1;
+    upgradeTexts[0].setText(upgradeTexts[str - 1] + up[4][0][0]);
+    upgradeTexts[0].visible = true;
+    upgradeTexts[2].setText(upgradeTexts[str] + Math.floor(productionCalc(up)) + ' per tick');
+    upgradeTexts[2].visible = true;
 };
 
-buy.buyT2 = function() {
+// TIER 2
+buy.t2 = {};
+buy.t2.buy = function() {
     var up = playerData.upgrades[1];
     if (playerData.voteCredits >= up[4][0][0]) {
         up[0] += 1;
@@ -185,10 +222,20 @@ buy.buyT2 = function() {
         up[4][0][0] = Math.floor(up[4][0][0] * buy.prIncrease); //increases price by 30%
         buttons[1].numText.setText(fixNum(playerData.upgrades[1][0]));
     }
-    console.log(up[0]);
+};
+buy.t2.over = function() {
+    var n = 1;
+    var up = playerData.upgrades[0];
+    var str = upgradeTexts.length - 1;
+    upgradeTexts[0].setText(upgradeTexts[str - 1] + up[4][0][0]);
+    upgradeTexts[0].visible = true;
+    upgradeTexts[2].setText(upgradeTexts[str] + Math.floor(productionCalc(up)) + ' per tick');
+    upgradeTexts[2].visible = true;
 };
 
-buy.buyT3 = function() {
+// TIER 3
+buy.t3 = {};
+buy.t3.buy = function() {
     var up = playerData.upgrades[2];
     if (playerData.voteCredits >= up[4][0][0]) {
         up[0] += 1;
@@ -196,10 +243,20 @@ buy.buyT3 = function() {
         up[4][0][0] = Math.floor(up[4][0][0] * buy.prIncrease); //increases price by 30%
         buttons[2].numText.setText(fixNum(playerData.upgrades[2][0]));
     }
-    console.log(up[0]);
+};
+buy.t3.over = function() {
+    var n = 2;
+    var up = playerData.upgrades[0];
+    var str = upgradeTexts.length - 1;
+    upgradeTexts[0].setText(upgradeTexts[str - 1] + up[4][0][0]);
+    upgradeTexts[0].visible = true;
+    upgradeTexts[2].setText(upgradeTexts[str] + Math.floor(productionCalc(up)) + ' per tick');
+    upgradeTexts[2].visible = true;
 };
 
-buy.buyT4 = function() {
+// TIER 4
+buy.t4 = {};
+buy.t4.buy = function() {
     var up = playerData.upgrades[3];
     if (playerData.voteCredits >= up[4][0][0]) {
         up[0] += 1;
@@ -207,10 +264,20 @@ buy.buyT4 = function() {
         up[4][0][0] = Math.floor(up[4][0][0] * buy.prIncrease); //increases price by 30%
         buttons[3].numText.setText(fixNum(playerData.upgrades[3][0]));
     }
-    console.log(up[0]);
+};
+buy.t4.over = function() {
+    var n = 3;
+    var up = playerData.upgrades[0];
+    var str = upgradeTexts.length - 1;
+    upgradeTexts[0].setText(upgradeTexts[str - 1] + up[4][0][0]);
+    upgradeTexts[0].visible = true;
+    upgradeTexts[2].setText(upgradeTexts[str] + Math.floor(productionCalc(up)) + ' per tick');
+    upgradeTexts[2].visible = true;
 };
 
-buy.buyT5 = function() {
+// TIER 5
+buy.t5 = {};
+buy.t5.buy = function() {
     var up = playerData.upgrades[4];
     if (playerData.voteCredits >= up[4][0][0]) {
         up[0] += 1;
@@ -218,10 +285,20 @@ buy.buyT5 = function() {
         up[4][0][0] = Math.floor(up[4][0][0] * buy.prIncrease); //increases price by 30%
         buttons[4].numText.setText(fixNum(playerData.upgrades[4][0]));
     }
-    console.log(up[0]);
+};
+buy.t5.over = function() {
+    var n = 4;
+    var up = playerData.upgrades[0];
+    var str = upgradeTexts.length - 1;
+    upgradeTexts[0].setText(upgradeTexts[str - 1] + up[4][0][0]);
+    upgradeTexts[0].visible = true;
+    upgradeTexts[2].setText(upgradeTexts[str] + Math.floor(productionCalc(up)) + ' per tick');
+    upgradeTexts[2].visible = true;
 };
 
-buy.buyT6 = function() {
+// TIER 6
+buy.t6 = {};
+buy.t6.buy = function() {
     var up = playerData.upgrades[5];
     if (playerData.voteCredits >= up[4][0][0]) {
         up[0] += 1;
@@ -229,10 +306,20 @@ buy.buyT6 = function() {
         up[4][0][0] = Math.floor(up[4][0][0] * buy.prIncrease); //increases price by 30%
         buttons[5].numText.setText(fixNum(playerData.upgrades[5][0]));
     }
-    console.log(up[0]);
+};
+buy.t6.over = function() {
+    var n = 5;
+    var up = playerData.upgrades[0];
+    var str = upgradeTexts.length - 1;
+    upgradeTexts[0].setText(upgradeTexts[str - 1] + up[4][0][0]);
+    upgradeTexts[0].visible = true;
+    upgradeTexts[2].setText(upgradeTexts[str] + Math.floor(productionCalc(up)) + ' per tick');
+    upgradeTexts[2].visible = true;
 };
 
-buy.buyT7 = function() {
+// TIER 7
+buy.t7 = {};
+buy.t7.buy = function() {
     var up = playerData.upgrades[6];
     if (playerData.voteCredits >= up[4][0][0]) {
         up[0] += 1;
@@ -240,10 +327,20 @@ buy.buyT7 = function() {
         up[4][0][0] = Math.floor(up[4][0][0] * buy.prIncrease); //increases price by 30%
         buttons[6].numText.setText(fixNum(playerData.upgrades[6][0]));
     }
-    console.log(up[0]);
+};
+buy.t7.over = function() {
+    var n = 6;
+    var up = playerData.upgrades[0];
+    var str = upgradeTexts.length - 1;
+    upgradeTexts[0].setText(upgradeTexts[str - 1] + up[4][0][0]);
+    upgradeTexts[0].visible = true;
+    upgradeTexts[2].setText(upgradeTexts[str] + Math.floor(productionCalc(up)) + ' per tick');
+    upgradeTexts[2].visible = true;
 };
 
-buy.buyT8 = function() {
+// TIER 8
+buy.t8 = {};
+buy.t8.buy = function() {
     var up = playerData.upgrades[7];
     if (playerData.voteCredits >= up[4][0][0]) {
         up[0] += 1;
@@ -251,10 +348,20 @@ buy.buyT8 = function() {
         up[4][0][0] = Math.floor(up[4][0][0] * buy.prIncrease); //increases price by 30%
         buttons[7].numText.setText(fixNum(playerData.upgrades[7][0]));
     }
-    console.log(up[0]);
+};
+buy.t8.over = function() {
+    var n = 7;
+    var up = playerData.upgrades[0];
+    var str = upgradeTexts.length - 1;
+    upgradeTexts[0].setText(upgradeTexts[str - 1] + up[4][0][0]);
+    upgradeTexts[0].visible = true;
+    upgradeTexts[2].setText(upgradeTexts[str] + Math.floor(productionCalc(up)) + ' per tick');
+    upgradeTexts[2].visible = true;
 };
 
-buy.buyT9 = function() {
+// TIER 9
+buy.t9 = {};
+buy.t9.buy = function() {
     var up = playerData.upgrades[8];
     if (playerData.voteCredits >= up[4][0][0]) {
         up[0] += 1;
@@ -262,10 +369,20 @@ buy.buyT9 = function() {
         up[4][0][0] = Math.floor(up[4][0][0] * buy.prIncrease); //increases price by 30%
         buttons[8].numText.setText(fixNum(playerData.upgrades[8][0]));
     }
-    console.log(up[0]);
+};
+buy.t9.over = function() {
+    var n = 8;
+    var up = playerData.upgrades[2];
+    var str = upgradeTexts.length - 1;
+    upgradeTexts[0].setText(upgradeTexts[str - 1] + up[4][0][0]);
+    upgradeTexts[0].visible = true;
+    upgradeTexts[2].setText(upgradeTexts[str] + Math.floor(productionCalc(up)) + ' per tick');
+    upgradeTexts[2].visible = true;
 };
 
-buy.buyT10 = function() {
+// TIER 10
+buy.t10 = { n: 9 };
+buy.t10.buy = function() {
     var up = playerData.upgrades[9];
     if (playerData.voteCredits >= up[4][0][0]) {
         up[0] += 1;
@@ -273,7 +390,13 @@ buy.buyT10 = function() {
         up[4][0][0] = Math.floor(up[4][0][0] * buy.prIncrease); //increases price by 30%
         buttons[9].numText.setText(fixNum(playerData.upgrades[9][0]));
     }
-    console.log(up[0]);
+};
+buy.t10.over = function() {
+    var up = playerData.upgrades[buy.t10.n+1];
+    upgradeTexts[0].setText(upgradeTexts[1] + up[4][0][0]);
+    upgradeTexts[0].visible = true;
+    upgradeTexts[2].setText(upgradeTexts[3] + Math.floor(productionCalc(up)) + ' per tick');
+    upgradeTexts[2].visible = true;
 };
 
 

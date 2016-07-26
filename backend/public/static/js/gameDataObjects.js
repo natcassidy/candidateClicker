@@ -38,8 +38,10 @@ var prArr = [
     [bPrArr[10], pCal(bPrArr[10], 2), pCal(bPrArr[10], 3), pCal(bPrArr[10], 4), pCal(bPrArr[10], 5)]
     ];
 
-var buttons = []; //yep, I got desperate and made them global objects. Wooho
+var headerFont = { font: '15pt Orbitron', fill: '#ffffff' };
 
-var smallFont = { font: 'Pixel', fill: '#ffffff' };
+var smallFont = { font: '10pt Orbitron', fill: '#ffffff' };
 
-var font = { font: 'Pixel', fill: '#ffffff' };
+var font = { font: '12pt Orbitron', fill: '#ffffff' };
+
+upgradeTexts = [];

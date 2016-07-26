@@ -20,8 +20,6 @@ myGame.main.prototype = {
         this.hQuarter = Math.floor(game.height / 4);
         this.hTenth = Math.floor(game.height / 10);
 
-
-
         //music
 
         this.music = game.add.audio('gameMusic');
@@ -46,134 +44,106 @@ myGame.main.prototype = {
         this.clickButton.inputEnabled = true;
         this.clickButton.events.onInputDown.add(this.clicked, this);
 
-        // Total vote text
-        tVTText = game.add.text(
-            Math.floor(this.wTenth * 0.25),
-            Math.floor(this.hTenth * 1.35),
-            'Trump Votes: ',
-            font);
+        //container object for text slots
+        var playerStatText = {};
 
-        cVTText = game.add.text(
-            Math.floor(this.wTenth * 0.25),
-            tVTText.y + tVTText.height,
-            'Clinton Votes: ',
-            font);
+        playerStatText.one = {
+            x: Math.floor(this.wTenth * 0.25),
+            y: Math.floor(this.hTenth * 1.40)
+        };
+        playerStatText.two = {
+            x: Math.floor(this.wTenth * 0.25),
+            y: Math.floor(this.hTenth * 1.75)
+        };
+        playerStatText.three = {
+            x: Math.floor(this.wTenth * 0.25),
+            y: Math.floor(this.hTenth * 2.10)
+        };
+
+        var totTextPos = {};
+        totTextPos.header = {
+            x: Math.floor(this.wHalf * 0.8),
+            y: Math.floor(this.hTenth)
+        };
+        totTextPos.one = {
+            x: Math.floor(this.wHalf * 0.8),
+            y: Math.floor(this.hTenth * 1.5)
+        };
+        totTextPos.two = {
+            x: Math.floor(this.wHalf * 0.8),
+            y: Math.floor(this.hTenth * 1.9)
+        };
 
         // Player vote text
         this.playerVotesText = game.add.text(
-            tVTText.x + tVTText.width + this.hTenth,  //X POSITION
-            tVTText.y,                                     //Y Position
+            playerStatText.one.x, //X POSITION
+            playerStatText.one.y, //Y Position
             "Your Votes: " + fixNum(playerData.votes),
             font);
 
         // Player vote credit text
         this.playerVoteCreditsText = game.add.text(
-            this.playerVotesText.x + tVTText.width + this.hTenth,  //X POSITION
-            tVTText.y,                                     //Y Position
+            playerStatText.two.x, //X POSITION
+            playerStatText.two.y, //Y Position
             "Your Vote Credits: " + fixNum(playerData.voteCredits),
             font);
 
         // Fancy Pen text
         this.fancyPenText = game.add.text(
-            tVTText.x + tVTText.width + this.hTenth,  //X POSITION
-            cVTText.y,                                     //Y Position
+            playerStatText.three.x,  //X POSITION
+            playerStatText.three.y,                                     //Y Position
             "Fancy Pens: " + fixNum(playerData.fancyPens));
         this.fancyPenText.visible = false;
+        
+        // Total vote text
+        totVotText = game.add.text( //indicates that these vote numbers are for all players together
+            totTextPos.header.x,
+            totTextPos.header.y,
+            'All Votes',
+            headerFont
+        );
+
+        tVTText = game.add.text(
+            totTextPos.one.x,
+            totTextPos.one.y,
+            'Trump: ',
+            font);
+            tVTText.anchor.setTo(0, 0);
+
+        cVTText = game.add.text(
+            totTextPos.two.x,
+            totTextPos.two.y,
+            'Clinton: ',
+            font);
+            cVTText.anchor.setTo(0, 0);
 
 
         //text for upgrades
 
-        //this.doorText = game.add.text(460,440,'Door to Door Upgrade Price: ' + fixNum(prArr[0][0]), font)
-        //this.doorText.visible = true;
+        var upPos = {};
+        upPos.top = {
+            x: this.wQuarter * 2.9,
+            y: this.hQuarter * 3.7
+        };
+        upPos.bottom = {
+            x: this.wQuarter * 2.9,
+            y: this.hQuarter * 3.8
+        };
 
-        //this.staffText = game.add.text(460,440,'Campaign Staff Upgrade Price: ' + fixNum(prArr[1][0]), font)
-        //this.staffText.visible = false;
+        
+        // This contains the (usually invisible) text 
+        // objects at the bottom of the screen that show 
+        // the price for the next purchase and the current 
+        // production rate
+        upgradeTexts[0] = game.add.text(upPos.top.x, upPos.top.y, '', smallFont);
+        upgradeTexts[0].visible = false;
+        upgradeTexts[2] = game.add.text(upPos.bottom.x, upPos.bottom.y, '', smallFont);
+        upgradeTexts[2].visible = false;
+        
+        upgradeTexts[1] = 'Price: ';
+        upgradeTexts[3] = 'Current: ';
 
-        //this.merchandiseText = game.add.text(460,440,'Free Merchandise Upgrade Price: ' + fixNum(prArr[2][0]), font)
-        //this.merchandiseText.visible = false;
-
-        //this.picketText = game.add.text(460,440,'Picket Signs Upgrade Price: ' + fixNum(prArr[3][0]), font)
-        //this.picketText.visible = false;
-
-        //this.radioText = game.add.text(460,440,'Radio Ads Upgrade Price: ' + fixNum(prArr[4][0]), font)
-        //this.radioText.visible = false;
-
-        //this.tvText = game.add.text(460,440,'TV Ads Upgrade Price: ' + fixNum(prArr[5][0]), font)
-        //this.tvText.visible = false;
-
-        //this.endorsementText = game.add.text(460,440,'Political Endorsement Upgrade Price: ' + fixNum(prArr[6][0]), font)
-        //this.endorsementText.visible = false;
-
-        //this.allianceText = game.add.text(460,440,'Political Alliance Upgrade Price: ' + fixNum(prArr[7][0]), font)
-        //this.allianceText.visible = false;
-
-        //this.cRallyText = game.add.text(460,440,'Clinton Rally Upgrade Price: ' + fixNum(prArr[8][0]), font)
-        //this.cRallyText.visible = false;
-
-        //this.tRallyText = game.add.text(460,440,'Trump Rally Upgrade Price: ' + fixNum(prArr[8][0]), font)
-        //this.tRallyText.visible = false;
-
-        //this.voteMakerText = game.add.text(460,440,'Vote Maker Upgrade Price: ' + fixNum(prArr[9][0]), font)
-        //this.voteMakerText.visible = false;
-
-        //this.emailServerText = game.add.text(460,440,'Email Server Upgrade Price: ' + fixNum(prArr[9][0]), font)
-        //this.emailServerText.visible = false;
-
-
-
-
-        //this.doorText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-            //font)
-        //this.doorText.visible = true;
-
-        //this.staffText = game.add.text(460,455,'Upgrade Rate:  ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-            //font)
-        //this.staffText.visible = false;
-
-        //this.merchandiseText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-           // font)
-        //this.merchandiseText.visible = false;
-
-        //this.picketText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-          //  font)
-       // this.picketText.visible = false;
-
-        //this.radioText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-            //font)
-        //this.radioText.visible = false;
-
-        //this.tvText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-           // font)
-       // this.tvText.visible = false;
-
-       // this.endorsementText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-       //     font)
-        //this.endorsementText.visible = false;
-
-        //this.allianceText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-//font)
-       // this.allianceText.visible = false;
-
-       // this.cRallyText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-           // font)
-//this.cRallyText.visible = false;
-
-        //this.tRallyText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-         //   font)
-        //this.tRallyText.visible = false;
-
-       // this.voteMakerText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-//font)
-       // this.voteMakerText.visible = false;
-
-       // this.emailServerText = game.add.text(460,455,'Upgrade Rate: ' + fixNum(Math.floor(playerData.upgradeUnlocks)),
-        //    font)
-        //this.emailServerText.visible = false;
-
-
-
-
-
+        upgradeTexts[(upgradeTexts.length - 2)] + fixNum(prArr[9][0]);
 
         // Frame counter
         // =600 : reset to 0, save cookie
@@ -186,6 +156,9 @@ myGame.main.prototype = {
         this.scrollBarY = 300;
 
         this.placeUpgradeButtons();
+
+        buttons[0].frame.visible = true;
+        buttons[0].buy.visible = true;
     },
 
     update: function() { // -UPDATE-
@@ -254,16 +227,13 @@ myGame.main.prototype = {
 
     addVotes: function(upgrades) {
         //increasing votes from passive sources
-        var change;
-        var multiplier = 1;
-            for (var a in upgrades) {
-                for (var i = 0; i < upgrades[a][3].length; i++){
-                    if (upgrades[a][3][i] === 1) { multiplier *= 2; }
-                }
-                change = upgrades[a][0] * upgrades[a][1] / upgrades[a][2] * multiplier;
-                playerData.votes += change;
-                playerData.voteCredits += change;
-            }
+        var change = 0;
+
+        for (var a = 0; a < upgrades.length; a++){
+            change += productionCalc(upgrades[a]);
+        }
+        playerData.votes += change;
+        playerData.voteCredits += change;
         this.playerVotesText.setText("Your Votes: " + fixNum(Math.floor(playerData.votes)));
 
         //currency changes
@@ -277,10 +247,9 @@ myGame.main.prototype = {
         dpd.votes.get(function (result, err) {
             if(err) return console.log(err);
             totalVotes = result[0];
-            tVTText.setText('Trump Votes: ' + fixNum(totalVotes.trump));
-            cVTText.setText('Clinton Votes: ' + fixNum(totalVotes.clinton));
+            tVTText.setText('Trump: ' + fixNum(totalVotes.trump));
+            cVTText.setText('Clinton: ' + fixNum(totalVotes.clinton));
         });
-
         save(playerData);
     },
 
@@ -307,8 +276,10 @@ myGame.main.prototype = {
             but = buttons[i];
 
             but.frame = game.add.image(anchorXPos, Y, 'upgradeBar');
+            but.frame.visible = false;
 
             but.buy = game.add.image(anchorXPos, Y, upgradeCatalogue[i][upKey]);
+            but.buy.visible = false;
 
             heightDiff = Math.floor((but.frame.height - but.buy.height) / 2);
             rowHeight = Y + heightDiff + but.buy.height / 2;
@@ -316,57 +287,48 @@ myGame.main.prototype = {
             but.buy.anchor.setTo(0.5, 0.5);
             but.buy.x += heightDiff + Math.floor(but.buy.height/2);
             but.buy.y = rowHeight;
+            but.buy.inputEnabled = true;
 
             if (up1X < this.wHalf){
                 up1X += but.buy.x;
             }
 
             but.ups = [];
-
-            but.ups[0] = game.add.image(up1X, rowHeight, 'starLocked');
-            but.ups[0].anchor.setTo(0, 0.5);
-
-            but.ups[1] = game.add.image(up1X + offset, rowHeight, 'starLocked');
-            but.ups[1].anchor.setTo(0, 0.5);
-
-            but.ups[2] = game.add.image(up1X + offset * 2, rowHeight, 'starLocked');
-            but.ups[2].anchor.setTo(0, 0.5);
-
-            but.ups[3] = game.add.image(up1X + offset * 3, rowHeight, 'starLocked');
-            but.ups[3].anchor.setTo(0, 0.5);
-
-            but.frame.visible = false;
-
-            var iStore = i;
-
-            but.buy.visible = false;
-            but.buy.inputEnabled = true;
-
-            but.ups[0].visible = false;
-            but.ups[0].inputEnabled = true;
-
-            but.ups[1].visible = false;
-            but.ups[1].inputEnabled = true;
-
-            but.ups[2].visible = false;
-            but.ups[2].inputEnabled = true;
-
-            but.ups[3].visible = false;
-            but.ups[3].inputEnabled = true;
+            for (var k = 0; k < 4; k++) {
+                but.ups[k] = game.add.image(up1X + (offset * k), rowHeight, 'starLocked');
+                but.ups[k].anchor.setTo(0, 0.5);
+                but.ups[k].visible = false;
+                but.ups[k].inputEnabled = true;
+            }
 
             Y += but.frame.height;
         }
-            // buy passive buttons
-            buttons[0].buy.events.onInputDown.add(buy.buyT1, this);
-            buttons[1].buy.events.onInputDown.add(buy.buyT2, this);
-            buttons[2].buy.events.onInputDown.add(buy.buyT3, this);
-            buttons[3].buy.events.onInputDown.add(buy.buyT4, this);
-            buttons[4].buy.events.onInputDown.add(buy.buyT5, this);
-            buttons[5].buy.events.onInputDown.add(buy.buyT6, this);
-            buttons[6].buy.events.onInputDown.add(buy.buyT7, this);
-            buttons[7].buy.events.onInputDown.add(buy.buyT8, this);
-            buttons[8].buy.events.onInputDown.add(buy.buyT9, this);
-            buttons[9].buy.events.onInputDown.add(buy.buyT10, this);
+            // buy buttons & mouse over callbacks
+            buttons[0].buy.events.onInputDown.add(buy.t1.buy, this);
+            buttons[0].buy.events.onInputOver.add(buy.t1.over, this);
+            buttons[1].buy.events.onInputDown.add(buy.t2.buy, this);
+            buttons[1].buy.events.onInputOver.add(buy.t2.over, this);
+            buttons[2].buy.events.onInputDown.add(buy.t3.buy, this);
+            buttons[2].buy.events.onInputOver.add(buy.t3.over, this);
+            buttons[3].buy.events.onInputDown.add(buy.t4.buy, this);
+            buttons[3].buy.events.onInputOver.add(buy.t4.over, this);
+            buttons[4].buy.events.onInputDown.add(buy.t5.buy, this);
+            buttons[4].buy.events.onInputOver.add(buy.t5.over, this);
+            buttons[5].buy.events.onInputDown.add(buy.t6.buy, this);
+            buttons[5].buy.events.onInputOver.add(buy.t6.over, this);
+            buttons[6].buy.events.onInputDown.add(buy.t7.buy, this);
+            buttons[6].buy.events.onInputOver.add(buy.t7.over, this);
+            buttons[7].buy.events.onInputDown.add(buy.t8.buy, this);
+            buttons[7].buy.events.onInputOver.add(buy.t8.over, this);
+            buttons[8].buy.events.onInputDown.add(buy.t9.buy, this);
+            buttons[8].buy.events.onInputOver.add(buy.t9.over, this);
+            buttons[9].buy.events.onInputDown.add(buy.t10.buy, this);
+            buttons[9].buy.events.onInputOver.add(buy.t10.over, this);
+            
+            //mouse off callback
+            for (var p = 0; p < buttons.length; p++){
+                buttons[p].buy.events.onInputOut.add(buy.out, this);
+            }
 
             // buy passive upgrade row 1 buttons
             buttons[0].ups[0].events.onInputDown.add(buy.buyT1up1, this);
@@ -460,7 +422,7 @@ myGame.main.prototype = {
             var but = buttons[9];
             but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[9][0]), smallFont);;
 
-            for (var h = 0; h < buttons.length; h++){
+            for (var h = 0; h < buttons.length; h++) {
                 buttons[h].numText.anchor.setTo(1.4, 0.5);
                 buttons[h].numText.visible = false;
             }

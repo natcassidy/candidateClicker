@@ -1,30 +1,26 @@
 myGame.preloader = function(game) {};
 
-
-
 myGame.preloader.prototype = {
 
     preload: function() {
 
-    this.WebFontConfig = {
+        webFontConfig = {
+    	    //  'active' means all requested fonts have finished loading
+            //  We set a 1 second delay before calling 'createText'.
+            //  For some reason if we don't the browser cannot render the text the first time it's created.
+            active: function() { game.time.events.add(Phaser.Timer.SECOND, this.createText, this); },
 
-    //  'active' means all requested fonts have finished loading
-    //  We set a 1 second delay before calling 'createText'.
-    //  For some reason if we don't the browser cannot render the text the first time it's created.
-    active: function() { game.time.events.add(Phaser.Timer.SECOND, createText, this); },
-
-    //  The Google Fonts we want to load (specify as many as you like in the array)
-    google: {
-      families: ['Pixel']
-    }
-}
+            //  The Google Fonts we want to load (specify as many as you like in the array)
+            google: {
+            families: ['Orbitron']
+            }
+        };
+        
+        game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
+        
 
         this.load.onFileComplete.add(this.fileComplete, this);
         this.load.onLoadComplete.add(this.loadComplete, this);
-
-        this.text = this.add.text(game.width / 2, game.height / 2.5, "Music By Joe Markle", {
-        fill: '#ffffff' 
-        });
 
         this.text = this.add.text(game.width / 2, game.height / 2, "Loading ...", {
             fill: '#ffffff'
@@ -85,17 +81,14 @@ myGame.preloader.prototype = {
 
         //main menu
 
-        this.load.image('back1', 'static/images/cclicker/web/.png');
+        this.load.image('vol', 'static/images/cclicker/web/vol.png');
     },
 
     create: function() {
     },
 
     update: function() {
-
-        if (playerData.selectedCandidate === 'trump' || playerData.selectedCandidate === 'clinton') {
-            this.state.start('main', true, false);
-        } else { this.state.start('mainMenu', true, false); }
+        this.state.start('message', true, false);
     },
 
     fileComplete: function(progress) {
@@ -105,5 +98,12 @@ myGame.preloader.prototype = {
     loadComplete: function() {
         this.text.setText("Load Complete!");
         //set timer to make text disappear then start branding animations
+    },
+
+    createText: function() {
+        text = game.add.text(game.world.centerX, game.world.centerY, "initial");
+        text.font = 'Orbitron';
+        text.visible = false;
     }
+
 };
