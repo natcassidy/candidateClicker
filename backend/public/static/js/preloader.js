@@ -4,12 +4,9 @@ myGame.preloader = function(game) {};
 
 myGame.preloader.prototype = {
 
-
-
     preload: function() {
 
-
-        this.WebFontConfig = {
+    this.WebFontConfig = {
 
     //  'active' means all requested fonts have finished loading
     //  We set a 1 second delay before calling 'createText'.
@@ -21,7 +18,6 @@ myGame.preloader.prototype = {
       families: ['Pixel']
     }
 }
-
 
         this.load.onFileComplete.add(this.fileComplete, this);
         this.load.onLoadComplete.add(this.loadComplete, this);
@@ -87,21 +83,19 @@ myGame.preloader.prototype = {
 
         this.load.audio('gameMusic', 'static/audio/gameMusic.mp3');
 
-
         //main menu
 
         this.load.image('back1', 'static/images/cclicker/web/.png');
     },
 
     create: function() {
-        this.done = true;
     },
 
     update: function() {
 
-        if (this.done) {
-            this.state.start('mainMenu', true, false);
-        }
+        if (playerData.selectedCandidate === 'trump' || playerData.selectedCandidate === 'clinton') {
+            this.state.start('main', true, false);
+        } else { this.state.start('mainMenu', true, false); }
     },
 
     fileComplete: function(progress) {

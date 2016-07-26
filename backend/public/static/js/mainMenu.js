@@ -10,7 +10,8 @@ myGame.mainMenu.prototype = {
 
     create: function() {
 
-        this.music = game.add.audio('menuMusic');
+        // MENUMUSIC NOT IMPLEMENTED YET
+        //this.music = game.add.audio('menuMusic');
 
         this.music.play();
 

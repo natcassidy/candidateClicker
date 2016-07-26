@@ -103,7 +103,7 @@ var newProfile = function() {
                 }
             }
         }
-        playerData.selectedCandidate = 'trump';
+        playerData.selectedCandidate = '';
         playerData.voteCredits = 0;
         playerData.votesPerClick = 1;
         playerData.fancyPens = 0; //permanent boosts gained by restarting
