@@ -212,12 +212,13 @@ myGame.main.prototype = {
 
         // checking which version of the upgrade
         // button pictures should be shown
-        if (this.frameCounter % 25 === 0){ // Every 45th frame
+        if (this.frameCounter % 25 === 0){ // Every 25th frame
             for (var i = 0; i < upgradeCatalogue.length; i++) { // for each item in upgradeCatalogue
                 if (playerData.votes > bPrArr[i] * 0.75){ // if player votes > 3/4 price of upgrade (row)
                     but = buttons[i];
                     but.frame.visible = true;
                     but.buy.visible = true;
+                    but.numText.visible = true;
                     for (var n = 0; n < but.ups.length; n++){ //for each item in the rows upgrades (star) list
                         if (but.ups[n].visible === false){ //if invisible, make visible
                             but.ups[n].visible = true;
@@ -470,6 +471,10 @@ myGame.main.prototype = {
             var but = buttons[9];
             but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[9][0]), smallFont);
             but.numText.anchor.setTo(1.4, 0.5);
+
+            for (var h = 0; h < buttons.length; h++){
+                buttons[h].numText.visible = false;
+            }
     }
 
 }
