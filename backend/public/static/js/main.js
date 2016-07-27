@@ -92,8 +92,8 @@ myGame.main.prototype = {
         this.fancyPenText = game.add.text(
             playerStatText.three.x, //X POSITION
             playerStatText.three.y, //Y Position
-            "Fancy Pens: " + fixNum(playerData.fancyPens));
-        this.fancyPenText.visible = false;
+            "Fancy Pens: " + fixNum(playerData.fancyPens), font);
+            console.log(playerData.fancyPens);
 
         // Total vote text
         totVotText = game.add.text( //indicates that these vote numbers are for all players together
@@ -129,6 +129,14 @@ myGame.main.prototype = {
 
         buttons[0].frame.visible = true; //Shows first tier from the start, not unlockable
         buttons[0].buy.visible = true;
+
+         //restart
+
+        this.buttonRestart = this.add.sprite(17, 155, 'buttonRestart');
+        this.buttonRestart.anchor.set(0.0);
+        this.buttonRestart.inputEnabled = true;
+        this.buttonRestart.events.onInputDown.add(this.restart, this);
+         
 
         //Volume/Mute controls
         this.vol = this.add.sprite(14, 430, 'vol');
@@ -203,6 +211,13 @@ myGame.main.prototype = {
             } else buttons[k].buy.alpha = 0.5;
         }
 
+    },
+
+    restart: function() {
+        playerData.fancyPens += (playerData.votes / 10)
+        playerData.votes = 0;
+        playerData.voteCredits = 0;
+        this.fancyPenText.setText('Fancy Pens: ' + fixNum(playerData.fancyPens));
     },
 
     clicked: function() {

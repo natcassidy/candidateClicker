@@ -87,6 +87,8 @@ myGame.preloader.prototype = {
         this.load.image('volOff', 'static/images/cclicker/web/volOff.png');
 
         this.load.image('box', 'static/images/cclicker/web/box.png');
+
+        this.load.image('buttonRestart', 'static/images/cclicker/web/buttonRestart.png');
     },
 
     create: function() {},
