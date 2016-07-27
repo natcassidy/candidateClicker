@@ -234,16 +234,15 @@ myGame.main.prototype = {
 
     volSelectOff: function() {
         game.sound.mute = true;
-        this.vol.visible = false
-        this.volOff.visible = true
+        this.vol.visible = false;
+        this.volOff.visible = true;
 
     },
 
     volSelectOn: function() {
         game.sound.mute = false;
-        this.vol.visible = true
-        this.volOff.visible = false
-
+        this.vol.visible = true;
+        this.volOff.visible = false;
     },
 
     serverCall: function() {
@@ -260,8 +259,6 @@ myGame.main.prototype = {
     placeUpgradeButtons: function() {
         var anchorXPos = game.width - Math.floor(1.13 * this.wQuarter); // X Position of Upgrades
         var Y = Math.floor(this.hTenth * 0.1); //make me relative with landmarks
-
-        upgradeBox = game.add.image(280, 135, 'box');
 
         var upKey;
         if (playerData.selectedCandidate === 'trump') {
@@ -379,12 +376,12 @@ myGame.main.prototype = {
 
         //Passive quantity texts
         var but;
-        for (var nt = 0; nt < upgradeCatalogue.length; nt++) {
-            but = buttons[nt];
+        for (n = 0; n < upgradeCatalogue.length; n++) {
+            but = buttons[n];
             but.numText = game.add.text(
                     but.frame.right, //X Position
                     but.frame.y + but.frame.height / 1.75, //Y Position
-                    fixNum(playerData.upgrades[nt][0]), //Text to be displayed
+                    fixNum(playerData.upgrades[n][0]), //Text to be displayed
                     smallFont) //Font
             but.numText.anchor.setTo(1.4, 0.5);
             but.numText.visible = false;
@@ -407,13 +404,15 @@ myGame.main.prototype = {
         };
         upPos.quote = {
             x: this.wHalf * 0.9,
-            y: this.hQuarter * 1.6
+            y: this.hQuarter * 1.7
         };
 
         //[0] = Title
         //[1] = Price
         //[3] = Current Production
         //[5] = Quote
+        upgradeBox = game.add.image(280, 135, 'box');
+        upgradeBox.visible = false;
         upgradeTexts[0] = game.add.text(upPos.title.x, upPos.title.y, '', font);
         upgradeTexts[0].visible = false;
         upgradeTexts[1] = game.add.text(upPos.price.x, upPos.price.y, '', smallFont);
@@ -424,5 +423,17 @@ myGame.main.prototype = {
 
         upgradeTexts[2] = 'Price: ';
         upgradeTexts[4] = 'Current: ';
+
+        
+        //Assigning the starOver function to each of the stars for each tier
+        for (i = 0; i < buttons.length; i++) { //Rows
+            for (n = 0; n < buttons[i].ups.length; n++) {
+                buttons[i].ups[n].events.onInputOver.add(buy.starOver, this);
+                buttons[i].ups[n].events.onInputOut.add(buy.starOff, this);
+            }
+        }
+
+        starText = game.add.text(upPos.title.x, upPos.title.y, 'Stars double a \ntier\'s production', font);
+        starText.visible = false;
     }
 }
