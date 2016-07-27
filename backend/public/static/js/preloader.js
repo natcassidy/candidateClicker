@@ -5,19 +5,21 @@ myGame.preloader.prototype = {
     preload: function() {
 
         webFontConfig = {
-    	    //  'active' means all requested fonts have finished loading
+            //  'active' means all requested fonts have finished loading
             //  We set a 1 second delay before calling 'createText'.
             //  For some reason if we don't the browser cannot render the text the first time it's created.
-            active: function() { game.time.events.add(Phaser.Timer.SECOND, this.createText, this); },
+            active: function() {
+                game.time.events.add(Phaser.Timer.SECOND, this.createText, this);
+            },
 
             //  The Google Fonts we want to load (specify as many as you like in the array)
             google: {
-            families: ['Orbitron']
+                families: ['Orbitron']
             }
         };
-        
+
         game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
-        
+
 
         this.load.onFileComplete.add(this.fileComplete, this);
         this.load.onLoadComplete.add(this.loadComplete, this);
@@ -82,10 +84,12 @@ myGame.preloader.prototype = {
         //main menu
 
         this.load.image('vol', 'static/images/cclicker/web/vol.png');
+        this.load.image('volOff', 'static/images/cclicker/web/volOff.png');
+
+        this.load.image('box', 'static/images/cclicker/web/box.png');
     },
 
-    create: function() {
-    },
+    create: function() {},
 
     update: function() {
         this.state.start('message', true, false);

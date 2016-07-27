@@ -29,7 +29,7 @@ myGame.main.prototype = {
         this.music.play();
 
         // Background images --HANDLES SELECTION OF CANDIDATE FROM MAINMENU--
-        if (playerData.selectedCandidate === 'trump'){
+        if (playerData.selectedCandidate === 'trump') {
             this.bg = game.add.image(0, 0, 'backgroundTrump');
         } else {
             this.bg = game.add.image(0, 0, 'backgroundClinton');
@@ -90,11 +90,11 @@ myGame.main.prototype = {
 
         // Fancy Pen text
         this.fancyPenText = game.add.text(
-            playerStatText.three.x,  //X POSITION
-            playerStatText.three.y,                                     //Y Position
+            playerStatText.three.x, //X POSITION
+            playerStatText.three.y, //Y Position
             "Fancy Pens: " + fixNum(playerData.fancyPens));
         this.fancyPenText.visible = false;
-        
+
         // Total vote text
         totVotText = game.add.text( //indicates that these vote numbers are for all players together
             totTextPos.header.x,
@@ -108,42 +108,14 @@ myGame.main.prototype = {
             totTextPos.one.y,
             'Trump: ',
             font);
-            tVTText.anchor.setTo(0, 0);
+        tVTText.anchor.setTo(0, 0);
 
         cVTText = game.add.text(
             totTextPos.two.x,
             totTextPos.two.y,
             'Clinton: ',
             font);
-            cVTText.anchor.setTo(0, 0);
-
-
-        //text for upgrades
-
-        var upPos = {};
-        upPos.top = {
-            x: this.wQuarter * 2.9,
-            y: this.hQuarter * 3.7
-        };
-        upPos.bottom = {
-            x: this.wQuarter * 2.9,
-            y: this.hQuarter * 3.8
-        };
-
-        
-        // This contains the (usually invisible) text 
-        // objects at the bottom of the screen that show 
-        // the price for the next purchase and the current 
-        // production rate
-        upgradeTexts[0] = game.add.text(upPos.top.x, upPos.top.y, '', smallFont);
-        upgradeTexts[0].visible = false;
-        upgradeTexts[2] = game.add.text(upPos.bottom.x, upPos.bottom.y, '', smallFont);
-        upgradeTexts[2].visible = false;
-        
-        upgradeTexts[1] = 'Price: ';
-        upgradeTexts[3] = 'Current: ';
-
-        upgradeTexts[(upgradeTexts.length - 2)] + fixNum(prArr[9][0]);
+        cVTText.anchor.setTo(0, 0);
 
         // Frame counter
         // =600 : reset to 0, save cookie
@@ -153,65 +125,84 @@ myGame.main.prototype = {
         save(playerData);
         this.serverCall();
 
-        this.scrollBarY = 300;
-
         this.placeUpgradeButtons();
 
-        buttons[0].frame.visible = true;
+        buttons[0].frame.visible = true; //Shows first tier from the start, not unlockable
         buttons[0].buy.visible = true;
+
+        //Volume/Mute controls
+        this.vol = this.add.sprite(14, 430, 'vol');
+        this.vol.anchor.set(0.0);
+        this.vol.inputEnabled = true;
+        this.vol.events.onInputDown.add(this.volSelectOff, this);
+
+        this.volOff = this.add.sprite(14, 430, 'volOff');
+        this.volOff.anchor.set(0.0);
+        this.volOff.inputEnabled = true;
+        this.volOff.events.onInputDown.add(this.volSelectOn, this);
+        this.volOff.visible = false;
     },
 
     update: function() { // -UPDATE-
-        if(this.frameCounter === -1){
-            var but; //shorthand for specific button used when tracking button visibility
+        //shorthand for specific button used when tracking button visibility
+        //This is needed in the for loop, just keeps the variable declaration outside the loop
+        if (this.frameCounter === -1) {
+            var but;
         }
         this.frameCounter++;
 
-        if (this.frameCounter === 60) {
+        //reseting this.frameCounter every 1000th frame
+        if (this.frameCounter === 1000) {
             this.frameCounter = 0;
+        }
+        //calling server every 60th frame
+        if (this.frameCounter % 60 === 0) {
             this.serverCall();
         }
-
         // updating vote totals
-        if ((this.frameCounter % 4) === 0) {
+        if (this.frameCounter % 15 === 0) {
             this.addVotes(playerData.upgrades);
         }
 
+        // checking which version of the upgrade
+        // button pictures should be shown
+        if (this.frameCounter % 25 === 0) {
+            for (var i = 0; i < upgradeCatalogue.length; i++) { // for each item in upgradeCatalogue
+                if (playerData.votes > bPrArr[i] * 0.75) { // if player votes > 3/4 price of upgrade (row)
+                    but = buttons[i];
+                    but.frame.visible = true;
+                    but.buy.visible = true;
+                    but.numText.visible = true;
+                    for (var n = 0; n < but.ups.length; n++) { //for each item in the rows upgrades (star) list
+                        if (but.ups[n].visible === false) { //if invisible, make visible
+                            but.ups[n].visible = true;
+                        }
+                        if (playerData.upgrades[i][0] >= upgradeUnlocks[n]) { // if # bought > unlock requirement
+                            if (but.ups[n].key === 'starLocked') { // if locked set to too expensive
+                                but.ups[n].loadTexture('starTooCostly');
+                            }
+                            if (but.ups[n].key === 'starTooCostly' && playerData.voteCredits >= prArr[i][n + 1]) {
+                                but.ups[n].loadTexture('starBuyable'); //if image is too costly and it's not set to buyable
+                            }
+                            if (but.ups[n].key === 'starBuyable' && playerData.voteCredits < prArr[i][n + 1]) {
+                                but.ups[n].loadTexture('starTooCostly'); // if set to buyable and it's too costly change image
+                            }
+                            if (playerData.upgrades[i][3][n] === 1) { //if image is set to buyable but the purchase list array
+                                but.ups[n].loadTexture('starBought'); //says it was bought change image
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        //checking currency sufficiency for each buy button
         for (var k = 0; k < playerData.upgrades.length; k++) {
             if (playerData.voteCredits > playerData.upgrades[k][4][0][0]) {
                 buttons[k].buy.alpha = 1;
             } else buttons[k].buy.alpha = 0.5;
         }
 
-        // checking which version of the upgrade
-        // button pictures should be shown
-        if (this.frameCounter % 25 === 0){ // Every 25th frame
-            for (var i = 0; i < upgradeCatalogue.length; i++) { // for each item in upgradeCatalogue
-                if (playerData.votes > bPrArr[i] * 0.75){ // if player votes > 3/4 price of upgrade (row)
-                    but = buttons[i];
-                    but.frame.visible = true;
-                    but.buy.visible = true;
-                    but.numText.visible = true;
-                    for (var n = 0; n < but.ups.length; n++){ //for each item in the rows upgrades (star) list
-                        if (but.ups[n].visible === false){ //if invisible, make visible
-                            but.ups[n].visible = true;
-                        }
-                        if (playerData.upgrades[i][0] >= upgradeUnlocks[n]) { // if # bought > unlock requirement
-                            if (but.ups[n].key === 'starLocked'){ // if locked set to too expensive
-                                but.ups[n].loadTexture('starTooCostly');
-                            }
-                            if (but.ups[n].key === 'starTooCostly' && playerData.voteCredits >= prArr[i][n+1]){
-                                but.ups[n].loadTexture('starBuyable'); //if image is too costly and it's not set to buyable
-                            }
-                            if (but.ups[n].key === 'starBuyable' && playerData.voteCredits < prArr[i][n+1]){
-                                but.ups[n].loadTexture('starTooCostly'); // if set to buyable and it's too costly change image
-                            }
-                            if (playerData.upgrades[i][3][n] === 1){ //if image is set to buyable but the purchase list array
-                                but.ups[n].loadTexture('starBought'); //says it was bought change image
-                            }
-                    }}
-            }}
-        }
     },
 
     clicked: function() {
@@ -229,7 +220,7 @@ myGame.main.prototype = {
         //increasing votes from passive sources
         var change = 0;
 
-        for (var a = 0; a < upgrades.length; a++){
+        for (var a = 0; a < upgrades.length; a++) {
             change += productionCalc(upgrades[a]);
         }
         playerData.votes += change;
@@ -239,13 +230,26 @@ myGame.main.prototype = {
         //currency changes
         this.playerVoteCreditsText.setText("Your Vote Credits: " + fixNum(Math.floor(playerData.voteCredits)),
             font)
+    },
+
+    volSelectOff: function() {
+        game.sound.mute = true;
+        this.vol.visible = false
+        this.volOff.visible = true
+
+    },
+
+    volSelectOn: function() {
+        game.sound.mute = false;
+        this.vol.visible = true
+        this.volOff.visible = false
 
     },
 
     serverCall: function() {
         var totalVotes = {};
-        dpd.votes.get(function (result, err) {
-            if(err) return console.log(err);
+        dpd.votes.get(function(result, err) {
+            if (err) return console.log(err);
             totalVotes = result[0];
             tVTText.setText('Trump: ' + fixNum(totalVotes.trump));
             cVTText.setText('Clinton: ' + fixNum(totalVotes.clinton));
@@ -254,11 +258,13 @@ myGame.main.prototype = {
     },
 
     placeUpgradeButtons: function() {
-        var anchorXPos = game.width - Math.floor(1.1 * this.wQuarter); //make me relative with landmarks
-        var Y = Math.floor(this.hTenth); //make me relative with landmarks
+        var anchorXPos = game.width - Math.floor(1.13 * this.wQuarter); // X Position of Upgrades
+        var Y = Math.floor(this.hTenth * 0.1); //make me relative with landmarks
+
+        upgradeBox = game.add.image(280, 135, 'box');
 
         var upKey;
-        if(playerData.selectedCandidate === 'trump') {
+        if (playerData.selectedCandidate === 'trump') {
             upKey = 1;
         } else {
             upKey = 2;
@@ -285,11 +291,11 @@ myGame.main.prototype = {
             rowHeight = Y + heightDiff + but.buy.height / 2;
 
             but.buy.anchor.setTo(0.5, 0.5);
-            but.buy.x += heightDiff + Math.floor(but.buy.height/2);
+            but.buy.x += heightDiff + Math.floor(but.buy.height / 2);
             but.buy.y = rowHeight;
             but.buy.inputEnabled = true;
 
-            if (up1X < this.wHalf){
+            if (up1X < this.wHalf) {
                 up1X += but.buy.x;
             }
 
@@ -303,129 +309,120 @@ myGame.main.prototype = {
 
             Y += but.frame.height;
         }
-            // buy buttons & mouse over callbacks
-            buttons[0].buy.events.onInputDown.add(buy.t1.buy, this);
-            buttons[0].buy.events.onInputOver.add(buy.t1.over, this);
-            buttons[1].buy.events.onInputDown.add(buy.t2.buy, this);
-            buttons[1].buy.events.onInputOver.add(buy.t2.over, this);
-            buttons[2].buy.events.onInputDown.add(buy.t3.buy, this);
-            buttons[2].buy.events.onInputOver.add(buy.t3.over, this);
-            buttons[3].buy.events.onInputDown.add(buy.t4.buy, this);
-            buttons[3].buy.events.onInputOver.add(buy.t4.over, this);
-            buttons[4].buy.events.onInputDown.add(buy.t5.buy, this);
-            buttons[4].buy.events.onInputOver.add(buy.t5.over, this);
-            buttons[5].buy.events.onInputDown.add(buy.t6.buy, this);
-            buttons[5].buy.events.onInputOver.add(buy.t6.over, this);
-            buttons[6].buy.events.onInputDown.add(buy.t7.buy, this);
-            buttons[6].buy.events.onInputOver.add(buy.t7.over, this);
-            buttons[7].buy.events.onInputDown.add(buy.t8.buy, this);
-            buttons[7].buy.events.onInputOver.add(buy.t8.over, this);
-            buttons[8].buy.events.onInputDown.add(buy.t9.buy, this);
-            buttons[8].buy.events.onInputOver.add(buy.t9.over, this);
-            buttons[9].buy.events.onInputDown.add(buy.t10.buy, this);
-            buttons[9].buy.events.onInputOver.add(buy.t10.over, this);
-            
-            //mouse off callback
-            for (var p = 0; p < buttons.length; p++){
-                buttons[p].buy.events.onInputOut.add(buy.out, this);
-            }
 
-            // buy passive upgrade row 1 buttons
-            buttons[0].ups[0].events.onInputDown.add(buy.buyT1up1, this);
-            buttons[0].ups[1].events.onInputDown.add(buy.buyT1up2, this);
-            buttons[0].ups[2].events.onInputDown.add(buy.buyT1up3, this);
-            buttons[0].ups[3].events.onInputDown.add(buy.buyT1up4, this);
+        // buy buttons & mouse over/out callbacks
+        for (i = 0; i < buttons.length; i++) {
+            buttons[i].buy.events.onInputDown.add(buy.buy, this);
+            buttons[i].buy.events.onInputOut.add(buy.out, this);
+            buttons[i].buy.events.onInputOver.add(buy.over, this);
+        }
 
-            // buy passive upgrade row 2 buttons
-            buttons[1].ups[0].events.onInputDown.add(buy.buyT2up1, this);
-            buttons[1].ups[1].events.onInputDown.add(buy.buyT2up2, this);
-            buttons[1].ups[2].events.onInputDown.add(buy.buyT2up3, this);
-            buttons[1].ups[3].events.onInputDown.add(buy.buyT2up4, this);
+        // T1 Buy
+        buttons[0].ups[0].events.onInputDown.add(buy.buyT1up1, this);
+        buttons[0].ups[1].events.onInputDown.add(buy.buyT1up2, this);
+        buttons[0].ups[2].events.onInputDown.add(buy.buyT1up3, this);
+        buttons[0].ups[3].events.onInputDown.add(buy.buyT1up4, this);
 
-            // buy passive upgrade row 3 buttons
-            buttons[2].ups[0].events.onInputDown.add(buy.buyT3up1, this);
-            buttons[2].ups[1].events.onInputDown.add(buy.buyT3up2, this);
-            buttons[2].ups[2].events.onInputDown.add(buy.buyT3up3, this);
-            buttons[2].ups[3].events.onInputDown.add(buy.buyT3up4, this);
+        // T2 Buy
+        buttons[1].ups[0].events.onInputDown.add(buy.buyT2up1, this);
+        buttons[1].ups[1].events.onInputDown.add(buy.buyT2up2, this);
+        buttons[1].ups[2].events.onInputDown.add(buy.buyT2up3, this);
+        buttons[1].ups[3].events.onInputDown.add(buy.buyT2up4, this);
 
-            // buy passive upgrade row 4 buttons
-            buttons[3].ups[0].events.onInputDown.add(buy.buyT4up1, this);
-            buttons[3].ups[1].events.onInputDown.add(buy.buyT4up2, this);
-            buttons[3].ups[2].events.onInputDown.add(buy.buyT4up3, this);
-            buttons[3].ups[3].events.onInputDown.add(buy.buyT4up4, this);
+        // T3 Buy
+        buttons[2].ups[0].events.onInputDown.add(buy.buyT3up1, this);
+        buttons[2].ups[1].events.onInputDown.add(buy.buyT3up2, this);
+        buttons[2].ups[2].events.onInputDown.add(buy.buyT3up3, this);
+        buttons[2].ups[3].events.onInputDown.add(buy.buyT3up4, this);
 
-            // buy passive upgrade row 5 buttons
-            buttons[4].ups[0].events.onInputDown.add(buy.buyT5up1, this);
-            buttons[4].ups[1].events.onInputDown.add(buy.buyT5up2, this);
-            buttons[4].ups[2].events.onInputDown.add(buy.buyT5up3, this);
-            buttons[4].ups[3].events.onInputDown.add(buy.buyT5up4, this);
+        // T4 Buy
+        buttons[3].ups[0].events.onInputDown.add(buy.buyT4up1, this);
+        buttons[3].ups[1].events.onInputDown.add(buy.buyT4up2, this);
+        buttons[3].ups[2].events.onInputDown.add(buy.buyT4up3, this);
+        buttons[3].ups[3].events.onInputDown.add(buy.buyT4up4, this);
 
-            // buy passive upgrade row 6 buttons
-            buttons[5].ups[0].events.onInputDown.add(buy.buyT6up1, this);
-            buttons[5].ups[1].events.onInputDown.add(buy.buyT6up2, this);
-            buttons[5].ups[2].events.onInputDown.add(buy.buyT6up3, this);
-            buttons[5].ups[3].events.onInputDown.add(buy.buyT6up4, this);
+        // T5 Buy
+        buttons[4].ups[0].events.onInputDown.add(buy.buyT5up1, this);
+        buttons[4].ups[1].events.onInputDown.add(buy.buyT5up2, this);
+        buttons[4].ups[2].events.onInputDown.add(buy.buyT5up3, this);
+        buttons[4].ups[3].events.onInputDown.add(buy.buyT5up4, this);
 
-            // buy passive upgrade row 7 buttons
-            buttons[6].ups[0].events.onInputDown.add(buy.buyT7up1, this);
-            buttons[6].ups[1].events.onInputDown.add(buy.buyT7up2, this);
-            buttons[6].ups[2].events.onInputDown.add(buy.buyT7up3, this);
-            buttons[6].ups[3].events.onInputDown.add(buy.buyT7up4, this);
+        // T6 Buy
+        buttons[5].ups[0].events.onInputDown.add(buy.buyT6up1, this);
+        buttons[5].ups[1].events.onInputDown.add(buy.buyT6up2, this);
+        buttons[5].ups[2].events.onInputDown.add(buy.buyT6up3, this);
+        buttons[5].ups[3].events.onInputDown.add(buy.buyT6up4, this);
 
-            // buy passive upgrade row 8 buttons
-            buttons[7].ups[0].events.onInputDown.add(buy.buyT8up1, this);
-            buttons[7].ups[1].events.onInputDown.add(buy.buyT8up2, this);
-            buttons[7].ups[2].events.onInputDown.add(buy.buyT8up3, this);
-            buttons[7].ups[3].events.onInputDown.add(buy.buyT8up4, this);
-            
-            // buy passive upgrade row 9 buttons
-            buttons[8].ups[0].events.onInputDown.add(buy.buyT9up1, this);
-            buttons[8].ups[1].events.onInputDown.add(buy.buyT9up2, this);
-            buttons[8].ups[2].events.onInputDown.add(buy.buyT9up3, this);
-            buttons[8].ups[3].events.onInputDown.add(buy.buyT9up4, this);
-            
-            // buy passive upgrade row 10 buttons
-            buttons[9].ups[0].events.onInputDown.add(buy.buyT10up1, this);
-            buttons[9].ups[1].events.onInputDown.add(buy.buyT10up2, this);
-            buttons[9].ups[2].events.onInputDown.add(buy.buyT10up3, this);
-            buttons[9].ups[3].events.onInputDown.add(buy.buyT10up4, this);
+        // T7 Buy
+        buttons[6].ups[0].events.onInputDown.add(buy.buyT7up1, this);
+        buttons[6].ups[1].events.onInputDown.add(buy.buyT7up2, this);
+        buttons[6].ups[2].events.onInputDown.add(buy.buyT7up3, this);
+        buttons[6].ups[3].events.onInputDown.add(buy.buyT7up4, this);
 
+        // T8 Buy
+        buttons[7].ups[0].events.onInputDown.add(buy.buyT8up1, this);
+        buttons[7].ups[1].events.onInputDown.add(buy.buyT8up2, this);
+        buttons[7].ups[2].events.onInputDown.add(buy.buyT8up3, this);
+        buttons[7].ups[3].events.onInputDown.add(buy.buyT8up4, this);
 
-            //adding text objects
-            var but = buttons[0];
-            but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[0][0]), smallFont);
+        // T9 Buy
+        buttons[8].ups[0].events.onInputDown.add(buy.buyT9up1, this);
+        buttons[8].ups[1].events.onInputDown.add(buy.buyT9up2, this);
+        buttons[8].ups[2].events.onInputDown.add(buy.buyT9up3, this);
+        buttons[8].ups[3].events.onInputDown.add(buy.buyT9up4, this);
 
-            var but = buttons[1];
-            but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[1][0]), smallFont);
+        // T10 Buy
+        buttons[9].ups[0].events.onInputDown.add(buy.buyT10up1, this);
+        buttons[9].ups[1].events.onInputDown.add(buy.buyT10up2, this);
+        buttons[9].ups[2].events.onInputDown.add(buy.buyT10up3, this);
+        buttons[9].ups[3].events.onInputDown.add(buy.buyT10up4, this);
 
-            var but = buttons[2];
-            but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[2][0]), smallFont);
+        //Passive quantity texts
+        var but;
+        for (var nt = 0; nt < upgradeCatalogue.length; nt++) {
+            but = buttons[nt];
+            but.numText = game.add.text(
+                    but.frame.right, //X Position
+                    but.frame.y + but.frame.height / 1.75, //Y Position
+                    fixNum(playerData.upgrades[nt][0]), //Text to be displayed
+                    smallFont) //Font
+            but.numText.anchor.setTo(1.4, 0.5);
+            but.numText.visible = false;
+        }
 
-            var but = buttons[3];
-            but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[3][0]), smallFont);
+        //text for upgrades
 
-            var but = buttons[4];
-            but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[4][0]), smallFont);
+        var upPos = {};
+        upPos.title = {
+            x: this.wHalf * 0.9,
+            y: this.hQuarter * 1.15
+        }
+        upPos.price = {
+            x: this.wHalf * 0.9,
+            y: this.hQuarter * 1.3
+        };
+        upPos.production = {
+            x: this.wHalf * 0.9,
+            y: this.hQuarter * 1.4
+        };
+        upPos.quote = {
+            x: this.wHalf * 0.9,
+            y: this.hQuarter * 1.6
+        };
 
-            var but = buttons[5];
-            but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[5][0]), smallFont);
+        //[0] = Title
+        //[1] = Price
+        //[3] = Current Production
+        //[5] = Quote
+        upgradeTexts[0] = game.add.text(upPos.title.x, upPos.title.y, '', font);
+        upgradeTexts[0].visible = false;
+        upgradeTexts[1] = game.add.text(upPos.price.x, upPos.price.y, '', smallFont);
+        upgradeTexts[1].visible = false;
+        upgradeTexts[3] = game.add.text(upPos.production.x, upPos.production.y, '', smallFont);
+        upgradeTexts[3].visible = false;
+        upgradeTexts[5] = game.add.text(upPos.quote.x, upPos.quote.y, '', smallFont)
 
-            var but = buttons[6];
-            but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[6][0]), smallFont);
-
-            var but = buttons[7];
-            but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[7][0]), smallFont);
-
-            var but = buttons[8];
-            but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[8][0]), smallFont);
-            
-            var but = buttons[9];
-            but.numText = game.add.text(but.frame.right, but.frame.y + but.frame.height / 1.75, fixNum(playerData.upgrades[9][0]), smallFont);;
-
-            for (var h = 0; h < buttons.length; h++) {
-                buttons[h].numText.anchor.setTo(1.4, 0.5);
-                buttons[h].numText.visible = false;
-            }
+        upgradeTexts[2] = 'Price: ';
+        upgradeTexts[4] = 'Current: ';
     }
-
 }

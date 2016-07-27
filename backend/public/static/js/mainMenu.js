@@ -33,10 +33,6 @@ myGame.mainMenu.prototype = {
         this.pickClinton.events.onInputDown.add(this.clintonSelect, this);
 
 
-        this.vol = this.add.sprite(20, 110, 'vol');
-        this.vol.anchor.set(0.0);
-        this.vol.inputEnabled = true;
-        this.vol.events.onInputDown.add(this.vol, this);
     },
 
     update: function() {
@@ -50,10 +46,12 @@ myGame.mainMenu.prototype = {
         save(playerData, true);
     },
 
-    clintonSelect: function () {
+    clintonSelect: function() {
         playerData.selectedCandidate = 'clinton';
         this.music.stop('gameMusic');
         this.state.start('main', true, false);
         save(playerData, true);
     }
+
+
 };
