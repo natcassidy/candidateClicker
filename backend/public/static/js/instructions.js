@@ -10,7 +10,7 @@ myGame.instructions.prototype = {
     
     game.add.image(0, 0, 'instructionsOne');
 
-    this.nextButton = this.add.sprite(490, 410, 'nextButton');
+    this.nextButton = this.add.sprite(510, 400, 'nextButton');
     this.nextButton.anchor.set(0.0);
     this.nextButton.inputEnabled = true;
     this.nextButton.events.onInputDown.add(this.moveAlong, this);
