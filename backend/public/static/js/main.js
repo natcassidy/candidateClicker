@@ -93,7 +93,6 @@ myGame.main.prototype = {
             playerStatText.three.x, //X POSITION
             playerStatText.three.y, //Y Position
             "Fancy Pens: " + fixNum(playerData.fancyPens), font);
-            console.log(playerData.fancyPens);
 
         // Total vote text
         totVotText = game.add.text( //indicates that these vote numbers are for all players together
@@ -218,6 +217,7 @@ myGame.main.prototype = {
         playerData.votes = 0;
         playerData.voteCredits = 0;
         this.fancyPenText.setText('Fancy Pens: ' + fixNum(playerData.fancyPens));
+        playerData.upgrades = initialUps;
     },
 
     clicked: function() {

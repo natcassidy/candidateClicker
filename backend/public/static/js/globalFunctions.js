@@ -215,8 +215,8 @@ buy.buy = function() {
         playerData.voteCredits -= up[4][0][0]; //subtracts price from voteCredits
         up[4][0][0] = Math.floor(up[4][0][0] * buy.prIncrease); //increases price by 30%
         but.numText.setText(fixNum(playerData.upgrades[i][0]));
-        upgradeTexts[1].setText(upgradeTexts[2] + up[4][0][0]);
-        upgradeTexts[3].setText(upgradeTexts[4] + Math.floor(productionCalc(up)) + ' per tick');
+        upgradeTexts[1].setText(upgradeTexts[2] + fixNum(up[4][0][0]));
+        upgradeTexts[3].setText(upgradeTexts[4] + fixNum(Math.floor(productionCalc(up))) + ' per tick');
     }
 };
 
