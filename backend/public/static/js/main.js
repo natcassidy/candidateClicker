@@ -20,6 +20,7 @@ myGame.main.prototype = {
         this.hQuarter = Math.floor(game.height / 4);
         this.hTenth = Math.floor(game.height / 10);
 
+<<<<<<< HEAD
 
         //zxc
         var keyZ = game.input.keyboard.addKey(Phaser.Keyboard.Z);
@@ -36,6 +37,8 @@ myGame.main.prototype = {
 
         this.music.play();
 
+=======
+>>>>>>> refs/remotes/Ajacmac/master
         // Background images --HANDLES SELECTION OF CANDIDATE FROM MAINMENU--
         if (playerData.selectedCandidate === 'trump') {
             this.bg = game.add.image(0, 0, 'backgroundTrump');
@@ -81,6 +84,13 @@ myGame.main.prototype = {
             x: Math.floor(this.wHalf * 0.8),
             y: Math.floor(this.hTenth * 1.9)
         };
+        
+        // Player Header Text
+        this.playerHeader = game.add.text(
+            playerStatText.one.x,
+            Math.floor(playerStatText.one.y * 0.7),
+            'Your Stats:',
+            headerFont);
 
         // Player vote text
         this.playerVotesText = game.add.text(
@@ -101,7 +111,9 @@ myGame.main.prototype = {
             playerStatText.three.x, //X POSITION
             playerStatText.three.y, //Y Position
             "Fancy Pens: " + fixNum(playerData.fancyPens), font);
-            console.log(playerData.fancyPens);
+        if (playerData.fancyPens === 0) {
+            this.fancyPenText.visible = false;
+        }
 
         // Total vote text
         totVotText = game.add.text( //indicates that these vote numbers are for all players together
@@ -144,9 +156,19 @@ myGame.main.prototype = {
         this.buttonRestart.anchor.set(0.0);
         this.buttonRestart.inputEnabled = true;
         this.buttonRestart.events.onInputDown.add(this.restart, this);
+        this.buttonRestart.visible = false;
          
 
         //Volume/Mute controls
+
+        //music
+
+        this.music = game.add.audio('gameMusic');
+
+        this.music.loop = true;
+
+        this.music.play();
+
         this.vol = this.add.sprite(14, 430, 'vol');
         this.vol.anchor.set(0.0);
         this.vol.inputEnabled = true;
@@ -156,10 +178,13 @@ myGame.main.prototype = {
         this.volOff.anchor.set(0.0);
         this.volOff.inputEnabled = true;
         this.volOff.events.onInputDown.add(this.volSelectOn, this);
-        this.volOff.visible = false;
-
-        
-        
+        if (playerData.sound === true){
+            this.volOff.visible = false;
+            game.sound.mute = false;
+        } else { 
+            this.vol.visible = false; 
+            game.sound.mute = true;
+        }
     },
 
     update: function() { // -UPDATE-
@@ -170,20 +195,19 @@ myGame.main.prototype = {
         }
         this.frameCounter++;
 
-
-        //fancypens bonus
-
-        perSecCal = playerData.fancyPens * 2;
-        console.log(perSecCal);
-
-
         //reseting this.frameCounter every 1000th frame
         if (this.frameCounter === 1000) {
             this.frameCounter = 0;
         }
         //calling server every 60th frame
-        if (this.frameCounter % 60 === 0) {
+        if (this.frameCounter % 120 === 0) {
             this.serverCall();
+            
+            //making restart button visible
+            if (playerData.votes >= 10000 && this.buttonRestart.visible === false) {
+                this.buttonRestart.visible = true;
+                this.fancyPenText.visible = true;
+            }
         }
         // updating vote totals
         if (this.frameCounter % 15 === 0) {
@@ -194,8 +218,8 @@ myGame.main.prototype = {
         // button pictures should be shown
         if (this.frameCounter % 25 === 0) {
             for (var i = 0; i < upgradeCatalogue.length; i++) { // for each item in upgradeCatalogue
-                if (playerData.votes > bPrArr[i] * 0.75) { // if player votes > 3/4 price of upgrade (row)
-                    but = buttons[i];
+                but = buttons[i];
+                if (playerData.voteCredits > bPrArr[i] * 0.75) {
                     but.frame.visible = true;
                     but.buy.visible = true;
                     but.numText.visible = true;
@@ -217,10 +241,7 @@ myGame.main.prototype = {
                                 but.ups[n].loadTexture('starBought'); //says it was bought change image
                             }
                         }
-                    }
-                }
-            }
-        }
+        }}}}
 
         //checking currency sufficiency for each buy button
         for (var k = 0; k < playerData.upgrades.length; k++) {
@@ -240,19 +261,45 @@ myGame.main.prototype = {
     },
 
     restart: function() {
-        playerData.fancyPens += (playerData.votes / 10)
-        playerData.votes = 0;
-        playerData.voteCredits = 0;
-        this.fancyPenText.setText('Fancy Pens: ' + fixNum(playerData.fancyPens));
+        data = playerData;
+        while (data.votes >= data.penPrice) {
+            data.votes -= data.penPrice;
+            data.fancyPens += 1;
+            data.penPrice = Math.floor(data.penPrice * 1.005);
+        }
+
+        data.votes = 0;
+        data.voteCredits = 0;
+        this.fancyPenText.setText('Fancy Pens: ' + fixNum(data.fancyPens));
+        data.upgrades = initialUps;
+
+        //Passive quantity texts
+        var but;
+        for (n = 0; n < upgradeCatalogue.length; n++) {
+            but = buttons[n];
+            but.numText.setText(data.upgrades[n][0])
+            but.numText.visible = false;
+            but.buy.visible = false;
+            but.frame.visible = false;
+            this.buttonRestart.visible = false;
+            for (var i = 0; i < 4; i++){
+                but.ups[i].loadTexture('starLocked');
+                but.ups[i].visible = false;
+            }
+        }
+        buttons[0].frame.visible = true;
+        buttons[0].buy.visible = true;
+        buttons[0].numText.visible = true;
     },
 
     clicked: function() {
+        var click = playerData.votesPerClick;
         //vote changes
-        playerData.votes += playerData.votesPerClick;
+        playerData.votes += click + click * playerData.fancyPens * 0.01;
         this.playerVotesText.setText("Your Votes: " + fixNum(Math.floor(playerData.votes)));
 
         //currency changes
-        playerData.voteCredits += playerData.votesPerClick;
+        playerData.voteCredits += click + click * playerData.fancyPens * 0.01;
         this.playerVoteCreditsText.setText("Your Vote Credits: " + fixNum(Math.floor(playerData.voteCredits)),
             font)
     },
@@ -277,13 +324,14 @@ myGame.main.prototype = {
         game.sound.mute = true;
         this.vol.visible = false;
         this.volOff.visible = true;
-
+        playerData.sound = false;
     },
 
     volSelectOn: function() {
         game.sound.mute = false;
         this.vol.visible = true;
         this.volOff.visible = false;
+        playerData.sound = true;
     },
 
     serverCall: function() {
@@ -429,43 +477,27 @@ myGame.main.prototype = {
         }
 
         //text for upgrades
-
-        var upPos = {};
-        upPos.title = {
-            x: this.wHalf * 0.9,
-            y: this.hQuarter * 1.15
-        }
-        upPos.price = {
-            x: this.wHalf * 0.9,
-            y: this.hQuarter * 1.3
-        };
-        upPos.production = {
-            x: this.wHalf * 0.9,
-            y: this.hQuarter * 1.4
-        };
-        upPos.quote = {
-            x: this.wHalf * 0.9,
-            y: this.hQuarter * 1.7
-        };
+        upgradeBox = game.add.image(
+            Math.floor(this.wHalf * 0.95), 
+            Math.floor(this.hQuarter * 1.1), 
+            'box');
+        upgradeBox.visible = false;
 
         //[0] = Title
         //[1] = Price
         //[3] = Current Production
         //[5] = Quote
-        upgradeBox = game.add.image(290, 135, 'box');
-        upgradeBox.visible = false;
-        upgradeTexts[0] = game.add.text(upPos.title.x, upPos.title.y, '', font);
+        upgradeTexts[0] = game.add.text(0,0, '', font);
         upgradeTexts[0].visible = false;
-        upgradeTexts[1] = game.add.text(upPos.price.x, upPos.price.y, '', smallFont);
+        upgradeTexts[1] = game.add.text(0,0, '', smallFont);
         upgradeTexts[1].visible = false;
-        upgradeTexts[3] = game.add.text(upPos.production.x, upPos.production.y, '', smallFont);
+        upgradeTexts[3] = game.add.text(0,0, '', smallFont);
         upgradeTexts[3].visible = false;
-        upgradeTexts[5] = game.add.text(upPos.quote.x, upPos.quote.y, '', smallFont)
+        upgradeTexts[5] = game.add.text(0,0, '', smallFont)
 
         upgradeTexts[2] = 'Price: ';
         upgradeTexts[4] = 'Current: ';
 
-        
         //Assigning the starOver function to each of the stars for each tier
         for (i = 0; i < buttons.length; i++) { //Rows
             for (n = 0; n < buttons[i].ups.length; n++) {
@@ -474,7 +506,11 @@ myGame.main.prototype = {
             }
         }
 
-        starText = game.add.text(upPos.title.x, upPos.title.y, 'Stars double a \ntier\'s production', font);
+        starText = game.add.text(
+            Math.floor(upgradeBox.left + upgradeBox.width * 0.05), 
+            Math.floor(upgradeBox.top * 1.05), 
+            'Stars double a \ntier\'s production', 
+            font);
         starText.visible = false;
     }
 }

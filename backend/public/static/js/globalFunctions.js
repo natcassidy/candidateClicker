@@ -21,10 +21,12 @@ var save = function(data, firstUpdate) {
                 "selectedCandidate": data.selectedCandidate,
                 "voteCredits": data.voteCredits,
                 "fancyPens": data.fancyPens,
+                'penPrice': data.penPrice,
                 "restarts": data.restarts,
                 "votes": data.votes,
                 "upgrades": data.upgrades,
-                "votesPerClick": data.votesPerClick
+                "votesPerClick": data.votesPerClick,
+                "sound": data.sound
             },
             function(user, err) {
                 if (err) {
@@ -39,10 +41,13 @@ var save = function(data, firstUpdate) {
             data.id, {
                 "voteCredits": data.voteCredits,
                 "fancyPens": data.fancyPens,
+                'penPrice': data.penPrice,
                 "restarts": data.restarts,
                 "votes": Math.floor(data.votes),
                 "upgrades": data.upgrades,
-                "votesPerClick": data.votesPerClick
+                "votesPerClick": data.votesPerClick,
+                "selectedCandidate": data.selectedCandidate,
+                "sound": data.sound
             },
             function(user, err) {
                 if (err) {
@@ -121,9 +126,11 @@ var newProfile = function() {
     playerData.voteCredits = 0;
     playerData.votesPerClick = 1;
     playerData.fancyPens = 0; //permanent boosts gained by restarting
+    playerData.penPrice = 10000;
     playerData.restarts = 0;
     playerData.votes = 0;
     playerData.unsentVotes = 0;
+    playerData.sound = true;
     playerData.upgrades = [
         //[# owned, ratio numer, ratio denom, ups bought array (0 or 1), pricing]
         [0, 1, 6, [0, 0, 0, 0],
@@ -174,7 +181,7 @@ var fixNum = function(num) { //takes a number and returns either that number or 
 var pCal = function(price, increment) {
     for (var n = 0; n < increment; n++) {
         for (var i = 0; i < 9; i++) {
-            price *= 1.5;
+            price *= 1.15;
         }
     }
     return Math.floor(price * 1.5);
@@ -189,7 +196,7 @@ var productionCalc = function(upgrade) {
         }
     }
     change = upgrade[0] * upgrade[1] / upgrade[2] * multiplier;
-    return change * 10000;
+    return change  + change * playerData.fancyPens * 0.1;
 };
 /*
  --FUNCTIONS FOR BUYING PASSIVE VOTERS IN MAIN--
@@ -199,7 +206,7 @@ var productionCalc = function(upgrade) {
         [5] = Quote
 */
 var buy = {
-    prIncrease: 1.5
+    prIncrease: 1.15
 };
 
 
@@ -217,11 +224,8 @@ buy.buy = function() {
         playerData.voteCredits -= up[4][0][0]; //subtracts price from voteCredits
         up[4][0][0] = Math.floor(up[4][0][0] * buy.prIncrease); //increases price by 30%
         but.numText.setText(fixNum(playerData.upgrades[i][0]));
-        upgradeTexts[1].setText(upgradeTexts[2] + up[4][0][0]);
-        upgradeTexts[3].setText(upgradeTexts[4] + Math.floor(productionCalc(up)) + ' per tick');
-        
-
-
+        upgradeTexts[1].setText(upgradeTexts[2] + fixNum(up[4][0][0]));
+        upgradeTexts[3].setText(upgradeTexts[4] + fixNum(Math.floor(productionCalc(up))) + ' per tick');
     }
 };
 
@@ -236,6 +240,7 @@ buy.over = function() {
         }
     }
     upgradeBox.visible = true;
+    upgradeBox.y = buttons[i].frame.top;
     var up = playerData.upgrades[i];
     upgradeTexts[0].setText(upgradeCatalogue[i][3][candidate]);
     upgradeTexts[0].visible = true;
@@ -245,7 +250,38 @@ buy.over = function() {
     upgradeTexts[3].visible = true;
     upgradeTexts[5].visible = true;
     upgradeTexts[5].setText(upgradeCatalogue[i][4][candidate]);
+
+    buy.moveText();
 };
+
+buy.moveText = function() {
+    var upPos = {};
+    upPos.title = {
+        x: Math.floor(upgradeBox.left + upgradeBox.width * 0.05),
+        y: Math.floor(upgradeBox.top + upgradeBox.height * 0.05)
+    }
+    upPos.price = {
+        x: Math.floor(upgradeBox.left + upgradeBox.width * 0.05),
+        y: Math.floor(upgradeBox.top + upgradeBox.height * 0.25)
+    };
+    upPos.production = {
+        x: Math.floor(upgradeBox.left + upgradeBox.width * 0.05),
+        y: Math.floor(upgradeBox.top + upgradeBox.height * 0.35)
+    };
+    upPos.quote = {
+        x: Math.floor(upgradeBox.left + upgradeBox.width * 0.05),
+        y: Math.floor(upgradeBox.top + upgradeBox.height * 0.55)
+    };
+    
+    upgradeTexts[0].x = upPos.title.x;
+    upgradeTexts[0].y = upPos.title.y;
+    upgradeTexts[1].x = upPos.price.x;
+    upgradeTexts[1].y =  upPos.price.y;
+    upgradeTexts[3].x = upPos.production.x;
+    upgradeTexts[3].y =  upPos.production.y;
+    upgradeTexts[5].x = upPos.quote.x;
+    upgradeTexts[5].y =  upPos.quote.y;
+}
 
 buy.starOver = function() {
     starText.visible = true;

@@ -33,8 +33,8 @@ var upgradeCatalogue = [
             'Picket Signs'
         ],
         [
-            "'We picket, you pick us!'\n...has to be better than \n'Don\'t vote for Trump'",
-            "'We picket, you pick us!'\n...has to be better than \n'Make racism great again!'"
+            "'I picket, you pick me!'\n...has to be better than \n'Don\'t vote for Trump'",
+            "'I picket, you pick me!'\n...has to be better than \n'Make racism great again!'"
         ]
     ],
     ['radio', 'radio', 'radio', [
@@ -60,8 +60,8 @@ var upgradeCatalogue = [
             'Political Endorsement'
         ],
         [
-            "'I named my kid after you!'",
-            "'I named my kid after you!'"
+            "'I named my kid after you!\n\n...so what if he was 8?'",
+            "'I named my kid after you!\n\n...so what if he was 8?'"
         ]
     ],
     ['alliance', 'alliance', 'alliance', [
@@ -117,6 +117,40 @@ var prArr = [
     [bPrArr[9], pCal(bPrArr[9], 2), pCal(bPrArr[9], 3), pCal(bPrArr[9], 5), pCal(bPrArr[9], 8)],
     [bPrArr[10], pCal(bPrArr[10], 2), pCal(bPrArr[10], 3), pCal(bPrArr[10], 5), pCal(bPrArr[10], 8)]
 ];
+
+var initialUps = [
+        //[# owned, ratio numer, ratio denom, ups bought array (0 or 1), pricing]
+        [0, 1, 6, [0, 0, 0, 0],
+            [prArr[0]]
+        ],
+        [0, 5, 6, [0, 0, 0, 0],
+            [prArr[1]]
+        ],
+        [0, 25, 6, [0, 0, 0, 0],
+            [prArr[2]]
+        ],
+        [0, 125, 6, [0, 0, 0, 0],
+            [prArr[3]]
+        ],
+        [0, 625, 6, [0, 0, 0, 0],
+            [prArr[4]]
+        ],
+        [0, 3125, 6, [0, 0, 0, 0],
+            [prArr[5]]
+        ],
+        [0, 15625, 6, [0, 0, 0, 0],
+            [prArr[6]]
+        ],
+        [0, 78125, 6, [0, 0, 0, 0],
+            [prArr[7]]
+        ],
+        [0, 390625, 6, [0, 0, 0, 0],
+            [prArr[8]]
+        ],
+        [0, 1953125, 6, [0, 0, 0, 0],
+            [prArr[9]]
+        ]
+    ];
 
 var headerFont = {
     font: '15pt Orbitron',
