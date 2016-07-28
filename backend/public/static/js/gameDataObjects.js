@@ -2,45 +2,95 @@
 
 var upgradeCatalogue = [
     ['doorKnocking', 'door', 'door', [
-        "Knockin' dem doors!",
-        "Knockin' dem doors!"
-    ]],
+            "Knocking on doors",
+            "Knocking on doors"
+        ],
+        [
+            "Knockin' dem doors!",
+            "Knockin' dem doors!"
+        ]
+    ],
     ['campaignStaff', 'campaignStaff', 'campaignStaff', [
-        "Hiring dem staff!",
-        "Hiring dem staff!"
-    ]],
+            'Campaign Staff',
+            'Campaign Staff'
+        ],
+        [
+            "Hiring dem staff!",
+            "Hiring dem staff!"
+        ]
+    ],
     ['freeClothing', 'tShirt', 'tShirt', [
-        "Let them have shirts!",
-        "Let them have shirts!"
-    ]],
+            'Free Clothing',
+            'Free Clothing'
+        ],
+        [
+            "Let them have shirts!",
+            "Let them have shirts!"
+        ]
+    ],
     ['picketSign', 'signT', 'signC', [
-        "'We picket, you pick us!'...has to be better than 'Don\'t vote for Trump'",
-        "'We picket, you pick us!'...has to be better than 'Make racism great again!'"
-    ]],
+            'Picket Signs',
+            'Picket Signs'
+        ],
+        [
+            "'We picket, you pick us!'\n...has to be better than \n'Don\'t vote for Trump'",
+            "'We picket, you pick us!'\n...has to be better than \n'Make racism great again!'"
+        ]
+    ],
     ['radio', 'radio', 'radio', [
-        "...that's made for radio...",
-        "...that's made for radio..."
-    ]],
+            'Radio Advertisements',
+            'Radio Advertisements'
+        ],
+        [
+            "...that's made for radio...",
+            "...that's made for radio..."
+        ]
+    ],
     ['tv', 'tv', 'tv', [
-        "Politics: now in your living room!",
-        "Politics: now in your living room!"
-    ]],
+            'TV Advertisements',
+            "TV Advertisements"
+        ],
+        [
+            "Politics: \nNow in your living room!",
+            "Politics: \nNow in your living room!"
+        ]
+    ],
     ['endorsement', 'endorsement', 'endorsement', [
-        "All the endorsements!",
-        "All the endorsements!"
-    ]],
+            'Political Endorsement',
+            'Political Endorsement'
+        ],
+        [
+            "'I named my kid after you!'",
+            "'I named my kid after you!'"
+        ]
+    ],
     ['alliance', 'alliance', 'alliance', [
-        "A friend in need is a friend you feed...to the lions!",
-        "A friend in need is a friend you feed...to the lions!"
-    ]],
+            'Political Alliance',
+            'Political Alliance'
+        ],
+        [
+            "A friend in need is a friend \nyou feed...to the lions!",
+            "A friend in need is a friend \nyou feed...to the lions!"
+        ]
+    ],
     ['rally', 'rallyTrump', 'rallyClinton', [
-        "Now for more than just golfballs!",
-        "Now for more than just golfballs!"
-    ]],
+            'Host Rally',
+            "Host Rally"
+        ],
+        [
+            "Now for more than just \ngolfballs!",
+            "Now for more than just \ngolfballs!"
+        ]
+    ],
     ['t10', 'voteMaker', 'emailServer', [
-        "(Made in China)",
-        "'I swear I didn\'t have illegal communications through that email server.'"
-    ]]
+            'The Votemaker 1000',
+            'The Email Server'
+        ],
+        [
+            "(Made in China)",
+            "'I swear I didn\'t have illegal \ncommunications through \nthat email server.'"
+        ]
+    ]
 ];
 
 var upgradeKey = ['count', 'ratio', 'rate', 'upgrades', 'basePrice'];
@@ -85,3 +135,4 @@ var font = {
 
 var upgradeTexts = [];
 var upgradeBox;
+var starText;

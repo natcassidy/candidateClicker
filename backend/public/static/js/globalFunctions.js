@@ -163,31 +163,11 @@ var newProfile = function() {
 };
 
 var fixNum = function(num) { //takes a number and returns either that number or the scientific notation
-    if (num.toString().length > 7) {
-        return sciNot(playerData.fancyPens);
+    if (num.toString().length > 6) {
+        return num.toPrecision(4);
     } else {
         return num;
     }
-};
-
-var sciNot = function(num) { //Converts to scientific notation
-    // get num.length
-    // divide num by 10e (num.length - 2)
-    // convert num to string and remove all digits but first 3
-    // return resulting string
-
-    var len = num.toString().length;
-    var div = 10;
-    for (var i = 0; i < (len - 2); i++) { // skips included ten, keeps additional ten, hence len - 2
-        div *= 10;
-    }
-
-    num /= div;
-
-    var str = num.toString();
-    str = str.slice(0, 5) + ' x10e' + (len - 1);
-
-    return str;
 };
 
 // Function for calculating prices from bPrArr
@@ -243,24 +223,33 @@ buy.buy = function() {
 };
 
 buy.over = function() {
+    var candidate;
+    if (playerData.selectedCandidate === 'trump') { candidate= 0; }
+    else { candidate = 1; }
+
     for (var i = 0; i < buttons.length; i++) {
         if (buttons[i].buy.input.pointerOver()) {
             break;
         }
     }
+    upgradeBox.visible = true;
     var up = playerData.upgrades[i];
-    upgradeTexts[0].setText("REPLACEMEPLEASEIMDYINGOVERHERE")
+    upgradeTexts[0].setText(upgradeCatalogue[i][3][candidate]);
     upgradeTexts[0].visible = true;
     upgradeTexts[1].setText(upgradeTexts[2] + fixNum(up[4][0][0]));
     upgradeTexts[1].visible = true;
     upgradeTexts[3].setText(upgradeTexts[4] + fixNum(Math.floor(productionCalc(up))) + ' per tick');
     upgradeTexts[3].visible = true;
     upgradeTexts[5].visible = true;
-    if (playerData.selectedCandidate === 'trump') {
-        upgradeTexts[5].setText(upgradeCatalogue[i][3][0]);
-    } else {
-        upgradeTexts[5].setText(upgradeCatalogue[i][3][1]);
-    }
+    upgradeTexts[5].setText(upgradeCatalogue[i][4][candidate]);
+};
+
+buy.starOver = function() {
+    starText.visible = true;
+};
+
+buy.starOff = function() {
+    starText.visible = false;
 };
 
 buy.out = function() {
@@ -268,6 +257,7 @@ buy.out = function() {
     upgradeTexts[1].visible = false;
     upgradeTexts[3].visible = false;
     upgradeTexts[5].visible = false;
+    upgradeBox.visible = false;
 };
 
 // --FUNCTIONS FOR BUYING UPGRADES FOR PASSIVE VOTERS IN MAIN--
