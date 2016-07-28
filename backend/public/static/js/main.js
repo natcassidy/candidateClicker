@@ -235,14 +235,11 @@ myGame.main.prototype = {
 
     restart: function() {
         data = playerData;
-        console.log(playerData.fancyPens);
-        console.log(data.votes >= data.penPrice);
         while (data.votes >= data.penPrice) {
             data.votes -= data.penPrice;
             data.fancyPens += 1;
             data.penPrice = Math.floor(data.penPrice * 1.005);
         }
-        console.log(playerData.fancyPens);
 
         data.votes = 0;
         data.voteCredits = 0;
