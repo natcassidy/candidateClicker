@@ -223,11 +223,27 @@ myGame.main.prototype = {
     },
 
     restart: function() {
-        playerData.fancyPens += (playerData.votes / 10000)
+        playerData.fancyPens = Math.floor(playerData.fancyPens + playerData.votes / 10000);
         playerData.votes = 0;
         playerData.voteCredits = 0;
         this.fancyPenText.setText('Fancy Pens: ' + fixNum(playerData.fancyPens));
         playerData.upgrades = initialUps;
+
+        //Passive quantity texts
+        var but;
+        for (n = 0; n < upgradeCatalogue.length; n++) {
+            but = buttons[n];
+            but.numText.setText(playerData.upgrades[n][0])
+            but.numText.visible = false;
+            but.buy.visible = false;
+            but.frame = false;
+            for (var i = 0; i < 4; i++){
+                but.ups[i].loadImage('starLocked');
+                but.ups[i].visible = false;
+            }
+        }
+
+        buttons[0].numText.visible = true;
     },
 
     clicked: function() {
@@ -249,8 +265,8 @@ myGame.main.prototype = {
         for (var a = 0; a < upgrades.length; a++) {
             change += productionCalc(upgrades[a]);
         }
-        playerData.votes += change + change * playerData.fancyPens * 0.1;
-        playerData.voteCredits += change + change * playerData.fancyPens * 0.1;
+        playerData.votes += change;
+        playerData.voteCredits += change;
         this.playerVotesText.setText("Your Votes: " + fixNum(Math.floor(playerData.votes)));
 
         //currency changes
@@ -424,13 +440,13 @@ myGame.main.prototype = {
         //[1] = Price
         //[3] = Current Production
         //[5] = Quote
-        upgradeTexts[0] = game.add.text(upPos.title.x, upPos.title.y, '', font);
+        upgradeTexts[0] = game.add.text(0,0, '', font);
         upgradeTexts[0].visible = false;
-        upgradeTexts[1] = game.add.text(upPos.price.x, upPos.price.y, '', smallFont);
+        upgradeTexts[1] = game.add.text(0,0, '', smallFont);
         upgradeTexts[1].visible = false;
-        upgradeTexts[3] = game.add.text(upPos.production.x, upPos.production.y, '', smallFont);
+        upgradeTexts[3] = game.add.text(0,0, '', smallFont);
         upgradeTexts[3].visible = false;
-        upgradeTexts[5] = game.add.text(upPos.quote.x, upPos.quote.y, '', smallFont)
+        upgradeTexts[5] = game.add.text(0,0, '', smallFont)
 
         upgradeTexts[2] = 'Price: ';
         upgradeTexts[4] = 'Current: ';
@@ -443,7 +459,11 @@ myGame.main.prototype = {
             }
         }
 
-        starText = game.add.text(upPos.title.x, upPos.title.y, 'Stars double a \ntier\'s production', font);
+        starText = game.add.text(
+            Math.floor(upgradeBox.left + upgradeBox.width * 0.05), 
+            Math.floor(upgradeBox.top * 1.05), 
+            'Stars double a \ntier\'s production', 
+            font);
         starText.visible = false;
     }
 }

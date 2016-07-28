@@ -33,8 +33,8 @@ var upgradeCatalogue = [
             'Picket Signs'
         ],
         [
-            "'We picket, you pick us!'\n...has to be better than \n'Don\'t vote for Trump'",
-            "'We picket, you pick us!'\n...has to be better than \n'Make racism great again!'"
+            "'I picket, you pick me!'\n...has to be better than \n'Don\'t vote for Trump'",
+            "'I picket, you pick me!'\n...has to be better than \n'Make racism great again!'"
         ]
     ],
     ['radio', 'radio', 'radio', [

@@ -175,7 +175,7 @@ var fixNum = function(num) { //takes a number and returns either that number or 
 var pCal = function(price, increment) {
     for (var n = 0; n < increment; n++) {
         for (var i = 0; i < 9; i++) {
-            price *= 1.5;
+            price *= 1.15;
         }
     }
     return Math.floor(price * 1.5);
@@ -190,7 +190,7 @@ var productionCalc = function(upgrade) {
         }
     }
     change = upgrade[0] * upgrade[1] / upgrade[2] * multiplier;
-    return change;
+    return change  + change * playerData.fancyPens * 0.1;
 };
 /*
  --FUNCTIONS FOR BUYING PASSIVE VOTERS IN MAIN--
@@ -250,19 +250,19 @@ buy.moveText = function() {
     var upPos = {};
     upPos.title = {
         x: Math.floor(upgradeBox.left + upgradeBox.width * 0.05),
-        y: Math.floor(upgradeBox.top * 1.05)
+        y: Math.floor(upgradeBox.top + upgradeBox.height * 0.05)
     }
     upPos.price = {
         x: Math.floor(upgradeBox.left + upgradeBox.width * 0.05),
-        y: Math.floor(upgradeBox.top * 1.25)
+        y: Math.floor(upgradeBox.top + upgradeBox.height * 0.25)
     };
     upPos.production = {
         x: Math.floor(upgradeBox.left + upgradeBox.width * 0.05),
-        y: Math.floor(upgradeBox.top * 1.35)
+        y: Math.floor(upgradeBox.top + upgradeBox.height * 0.35)
     };
     upPos.quote = {
         x: Math.floor(upgradeBox.left + upgradeBox.width * 0.05),
-        y: Math.floor(upgradeBox.top * 1.65)
+        y: Math.floor(upgradeBox.top + upgradeBox.height * 0.55)
     };
     
     upgradeTexts[0].x = upPos.title.x;
