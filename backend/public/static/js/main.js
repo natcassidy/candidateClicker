@@ -158,7 +158,7 @@ myGame.main.prototype = {
         this.volOff.events.onInputDown.add(this.volSelectOn, this);
         this.volOff.visible = false;
 
-        this.nextButton = this.add.sprite(480, 400, 'nextButton');
+        
         
     },
 
