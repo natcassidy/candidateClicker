@@ -19,26 +19,7 @@ myGame.main.prototype = {
         this.hThird = Math.floor(game.height / 3);
         this.hQuarter = Math.floor(game.height / 4);
         this.hTenth = Math.floor(game.height / 10);
-
-<<<<<<< HEAD
-
-        //zxc
-        var keyZ = game.input.keyboard.addKey(Phaser.Keyboard.Z);
-        keyZ.onDown.add(this.xZ, this);
-
-        game.input.mouse.capture = true;
-
-
-        //music
-
-        this.music = game.add.audio('gameMusic');
-
-        this.music.loop = true;
-
-        this.music.play();
-
-=======
->>>>>>> refs/remotes/Ajacmac/master
+        
         // Background images --HANDLES SELECTION OF CANDIDATE FROM MAINMENU--
         if (playerData.selectedCandidate === 'trump') {
             this.bg = game.add.image(0, 0, 'backgroundTrump');
@@ -152,7 +133,7 @@ myGame.main.prototype = {
 
          //restart
 
-        this.buttonRestart = this.add.sprite(17, 145, 'buttonRestart');
+        this.buttonRestart = this.add.sprite(17, 155, 'buttonRestart');
         this.buttonRestart.anchor.set(0.0);
         this.buttonRestart.inputEnabled = true;
         this.buttonRestart.events.onInputDown.add(this.restart, this);
@@ -248,14 +229,6 @@ myGame.main.prototype = {
             if (playerData.voteCredits > playerData.upgrades[k][4][0][0]) {
                 buttons[k].buy.alpha = 1;
             } else buttons[k].buy.alpha = 0.5;
-        }
-
-    },
-
-    xZ: function () {
-        if (game.input.activePointer.leftButton.isDown)
-        {
-            this.buy.buy * 25 
         }
 
     },
