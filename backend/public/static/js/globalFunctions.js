@@ -189,7 +189,7 @@ var productionCalc = function(upgrade) {
         }
     }
     change = upgrade[0] * upgrade[1] / upgrade[2] * multiplier;
-    return change * 10000;
+    return change;
 };
 /*
  --FUNCTIONS FOR BUYING PASSIVE VOTERS IN MAIN--

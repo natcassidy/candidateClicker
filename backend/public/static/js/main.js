@@ -93,6 +93,9 @@ myGame.main.prototype = {
             playerStatText.three.x, //X POSITION
             playerStatText.three.y, //Y Position
             "Fancy Pens: " + fixNum(playerData.fancyPens), font);
+        if (playerData.fancyPens === 0) {
+            this.fancyPenText.visible = false;
+        }
 
         // Total vote text
         totVotText = game.add.text( //indicates that these vote numbers are for all players together
@@ -135,6 +138,7 @@ myGame.main.prototype = {
         this.buttonRestart.anchor.set(0.0);
         this.buttonRestart.inputEnabled = true;
         this.buttonRestart.events.onInputDown.add(this.restart, this);
+        this.buttonRestart.visible = false;
          
 
         //Volume/Mute controls
@@ -165,6 +169,12 @@ myGame.main.prototype = {
         //calling server every 60th frame
         if (this.frameCounter % 60 === 0) {
             this.serverCall();
+            
+            //making restart button visible
+            if (playerData.votes >= 10000 && this.buttonRestart.visible === false) {
+                this.buttonRestart.visible = true;
+                this.fancyPenText.visible = true;
+            }
         }
         // updating vote totals
         if (this.frameCounter % 15 === 0) {
@@ -213,7 +223,7 @@ myGame.main.prototype = {
     },
 
     restart: function() {
-        playerData.fancyPens += (playerData.votes / 10)
+        playerData.fancyPens += (playerData.votes / 10000)
         playerData.votes = 0;
         playerData.voteCredits = 0;
         this.fancyPenText.setText('Fancy Pens: ' + fixNum(playerData.fancyPens));
@@ -221,12 +231,13 @@ myGame.main.prototype = {
     },
 
     clicked: function() {
+        var click = playerData.votesPerClick;
         //vote changes
-        playerData.votes += playerData.votesPerClick;
+        playerData.votes += click + click * playerData.fancyPens * 0.01;
         this.playerVotesText.setText("Your Votes: " + fixNum(Math.floor(playerData.votes)));
 
         //currency changes
-        playerData.voteCredits += playerData.votesPerClick;
+        playerData.voteCredits += click + click * playerData.fancyPens * 0.01;
         this.playerVoteCreditsText.setText("Your Vote Credits: " + fixNum(Math.floor(playerData.voteCredits)),
             font)
     },
@@ -238,8 +249,8 @@ myGame.main.prototype = {
         for (var a = 0; a < upgrades.length; a++) {
             change += productionCalc(upgrades[a]);
         }
-        playerData.votes += change;
-        playerData.voteCredits += change;
+        playerData.votes += change + change * playerData.fancyPens * 0.1;
+        playerData.voteCredits += change + change * playerData.fancyPens * 0.1;
         this.playerVotesText.setText("Your Votes: " + fixNum(Math.floor(playerData.votes)));
 
         //currency changes
