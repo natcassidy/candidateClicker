@@ -42,14 +42,14 @@ myGame.mainMenu.prototype = {
     trumpSelect: function() {
         playerData.selectedCandidate = 'trump';
         this.music.stop('gameMusic');
-        this.state.start('main', true, false);
+        this.state.start('instructions', true, false);
         save(playerData, true);
     },
 
     clintonSelect: function() {
         playerData.selectedCandidate = 'clinton';
         this.music.stop('gameMusic');
-        this.state.start('main', true, false);
+        this.state.start('instructions', true, false);
         save(playerData, true);
     }
 

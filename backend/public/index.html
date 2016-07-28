@@ -21,6 +21,9 @@
     <script type='text/javascript' src='/static/js/messageState.js'></script>
     <script type='text/javascript' src='/static/js/mainMenu.js'></script>
     <script type='text/javascript' src='/static/js/main.js'></script>
+
+    <script type='text/javascript' src='/static/js/instructions.js'></script>
+    <script type='text/javascript' src='/static/js/instructionsTwo.js'></script>
 </head>
 <body>
 
@@ -34,6 +37,8 @@
     game.state.add('message', myGame.messageState);
     game.state.add('mainMenu', myGame.mainMenu);
     game.state.add('main', myGame.main);
+    game.state.add('instructions', myGame.instructions);
+    game.state.add('instructionsTwo', myGame.instructionsTwo);
 
     game.state.start('boot');
 
