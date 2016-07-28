@@ -20,14 +20,6 @@ myGame.main.prototype = {
         this.hQuarter = Math.floor(game.height / 4);
         this.hTenth = Math.floor(game.height / 10);
 
-        //music
-
-        this.music = game.add.audio('gameMusic');
-
-        this.music.loop = true;
-
-        this.music.play();
-
         // Background images --HANDLES SELECTION OF CANDIDATE FROM MAINMENU--
         if (playerData.selectedCandidate === 'trump') {
             this.bg = game.add.image(0, 0, 'backgroundTrump');
@@ -73,6 +65,13 @@ myGame.main.prototype = {
             x: Math.floor(this.wHalf * 0.8),
             y: Math.floor(this.hTenth * 1.9)
         };
+        
+        // Player Header Text
+        this.playerHeader = game.add.text(
+            playerStatText.one.x,
+            Math.floor(playerStatText.one.y * 0.7),
+            'Your Stats:',
+            headerFont);
 
         // Player vote text
         this.playerVotesText = game.add.text(
@@ -142,6 +141,15 @@ myGame.main.prototype = {
          
 
         //Volume/Mute controls
+
+        //music
+
+        this.music = game.add.audio('gameMusic');
+
+        this.music.loop = true;
+
+        this.music.play();
+
         this.vol = this.add.sprite(14, 430, 'vol');
         this.vol.anchor.set(0.0);
         this.vol.inputEnabled = true;
@@ -151,7 +159,13 @@ myGame.main.prototype = {
         this.volOff.anchor.set(0.0);
         this.volOff.inputEnabled = true;
         this.volOff.events.onInputDown.add(this.volSelectOn, this);
-        this.volOff.visible = false;
+        if (playerData.sound === true){
+            this.volOff.visible = false;
+            game.sound.mute = false;
+        } else { 
+            this.vol.visible = false; 
+            game.sound.mute = true;
+        }
     },
 
     update: function() { // -UPDATE-
@@ -185,8 +199,8 @@ myGame.main.prototype = {
         // button pictures should be shown
         if (this.frameCounter % 25 === 0) {
             for (var i = 0; i < upgradeCatalogue.length; i++) { // for each item in upgradeCatalogue
-                if (playerData.votes > bPrArr[i] * 0.75) { // if player votes > 3/4 price of upgrade (row)
-                    but = buttons[i];
+                but = buttons[i];
+                if (playerData.voteCredits > bPrArr[i] * 0.75) {
                     but.frame.visible = true;
                     but.buy.visible = true;
                     but.numText.visible = true;
@@ -206,7 +220,9 @@ myGame.main.prototype = {
                             }
                             if (playerData.upgrades[i][3][n] === 1) { //if image is set to buyable but the purchase list array
                                 but.ups[n].loadTexture('starBought'); //says it was bought change image
-        }}}}}}
+                            }
+                        }
+        }}}}
 
         //checking currency sufficiency for each buy button
         for (var k = 0; k < playerData.upgrades.length; k++) {
@@ -218,26 +234,37 @@ myGame.main.prototype = {
     },
 
     restart: function() {
-        playerData.fancyPens = Math.floor(playerData.fancyPens + playerData.votes / 10000);
-        playerData.votes = 0;
-        playerData.voteCredits = 0;
-        this.fancyPenText.setText('Fancy Pens: ' + fixNum(playerData.fancyPens));
-        playerData.upgrades = initialUps;
+        data = playerData;
+        console.log(playerData.fancyPens);
+        console.log(data.votes >= data.penPrice);
+        while (data.votes >= data.penPrice) {
+            data.votes -= data.penPrice;
+            data.fancyPens += 1;
+            data.penPrice = Math.floor(data.penPrice * 1.005);
+        }
+        console.log(playerData.fancyPens);
+
+        data.votes = 0;
+        data.voteCredits = 0;
+        this.fancyPenText.setText('Fancy Pens: ' + fixNum(data.fancyPens));
+        data.upgrades = initialUps;
 
         //Passive quantity texts
         var but;
         for (n = 0; n < upgradeCatalogue.length; n++) {
             but = buttons[n];
-            but.numText.setText(playerData.upgrades[n][0])
+            but.numText.setText(data.upgrades[n][0])
             but.numText.visible = false;
             but.buy.visible = false;
-            but.frame = false;
+            but.frame.visible = false;
+            this.buttonRestart.visible = false;
             for (var i = 0; i < 4; i++){
-                but.ups[i].loadImage('starLocked');
+                but.ups[i].loadTexture('starLocked');
                 but.ups[i].visible = false;
             }
         }
-
+        buttons[0].frame.visible = true;
+        buttons[0].buy.visible = true;
         buttons[0].numText.visible = true;
     },
 
@@ -273,13 +300,14 @@ myGame.main.prototype = {
         game.sound.mute = true;
         this.vol.visible = false;
         this.volOff.visible = true;
-
+        playerData.sound = false;
     },
 
     volSelectOn: function() {
         game.sound.mute = false;
         this.vol.visible = true;
         this.volOff.visible = false;
+        playerData.sound = true;
     },
 
     serverCall: function() {

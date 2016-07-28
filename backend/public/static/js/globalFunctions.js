@@ -21,10 +21,12 @@ var save = function(data, firstUpdate) {
                 "selectedCandidate": data.selectedCandidate,
                 "voteCredits": data.voteCredits,
                 "fancyPens": data.fancyPens,
+                'penPrice': data.penPrice,
                 "restarts": data.restarts,
                 "votes": data.votes,
                 "upgrades": data.upgrades,
-                "votesPerClick": data.votesPerClick
+                "votesPerClick": data.votesPerClick,
+                "sound": data.sound
             },
             function(user, err) {
                 if (err) {
@@ -39,11 +41,13 @@ var save = function(data, firstUpdate) {
             data.id, {
                 "voteCredits": data.voteCredits,
                 "fancyPens": data.fancyPens,
+                'penPrice': data.penPrice,
                 "restarts": data.restarts,
                 "votes": Math.floor(data.votes),
                 "upgrades": data.upgrades,
                 "votesPerClick": data.votesPerClick,
-                "selectedCandidate": data.selectedCandidate
+                "selectedCandidate": data.selectedCandidate,
+                "sound": data.sound
             },
             function(user, err) {
                 if (err) {
@@ -122,9 +126,11 @@ var newProfile = function() {
     playerData.voteCredits = 0;
     playerData.votesPerClick = 1;
     playerData.fancyPens = 0; //permanent boosts gained by restarting
+    playerData.penPrice = 10000;
     playerData.restarts = 0;
     playerData.votes = 0;
     playerData.unsentVotes = 0;
+    playerData.sound = true;
     playerData.upgrades = [
         //[# owned, ratio numer, ratio denom, ups bought array (0 or 1), pricing]
         [0, 1, 6, [0, 0, 0, 0],
