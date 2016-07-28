@@ -167,7 +167,7 @@ myGame.main.prototype = {
             this.frameCounter = 0;
         }
         //calling server every 60th frame
-        if (this.frameCounter % 60 === 0) {
+        if (this.frameCounter % 120 === 0) {
             this.serverCall();
             
             //making restart button visible
@@ -414,31 +414,16 @@ myGame.main.prototype = {
         }
 
         //text for upgrades
-
-        var upPos = {};
-        upPos.title = {
-            x: this.wHalf * 0.9,
-            y: this.hQuarter * 1.15
-        }
-        upPos.price = {
-            x: this.wHalf * 0.9,
-            y: this.hQuarter * 1.3
-        };
-        upPos.production = {
-            x: this.wHalf * 0.9,
-            y: this.hQuarter * 1.4
-        };
-        upPos.quote = {
-            x: this.wHalf * 0.9,
-            y: this.hQuarter * 1.7
-        };
+        upgradeBox = game.add.image(
+            Math.floor(this.wHalf * 0.95), 
+            Math.floor(this.hQuarter * 1.1), 
+            'box');
+        upgradeBox.visible = false;
 
         //[0] = Title
         //[1] = Price
         //[3] = Current Production
         //[5] = Quote
-        upgradeBox = game.add.image(280, 135, 'box');
-        upgradeBox.visible = false;
         upgradeTexts[0] = game.add.text(upPos.title.x, upPos.title.y, '', font);
         upgradeTexts[0].visible = false;
         upgradeTexts[1] = game.add.text(upPos.price.x, upPos.price.y, '', smallFont);
@@ -450,7 +435,6 @@ myGame.main.prototype = {
         upgradeTexts[2] = 'Price: ';
         upgradeTexts[4] = 'Current: ';
 
-        
         //Assigning the starOver function to each of the stars for each tier
         for (i = 0; i < buttons.length; i++) { //Rows
             for (n = 0; n < buttons[i].ups.length; n++) {

@@ -42,7 +42,8 @@ var save = function(data, firstUpdate) {
                 "restarts": data.restarts,
                 "votes": Math.floor(data.votes),
                 "upgrades": data.upgrades,
-                "votesPerClick": data.votesPerClick
+                "votesPerClick": data.votesPerClick,
+                "selectedCandidate": data.selectedCandidate
             },
             function(user, err) {
                 if (err) {
@@ -199,7 +200,7 @@ var productionCalc = function(upgrade) {
         [5] = Quote
 */
 var buy = {
-    prIncrease: 1.5
+    prIncrease: 1.15
 };
 
 buy.buy = function() {
@@ -231,6 +232,7 @@ buy.over = function() {
         }
     }
     upgradeBox.visible = true;
+    upgradeBox.y = buttons[i].frame.top;
     var up = playerData.upgrades[i];
     upgradeTexts[0].setText(upgradeCatalogue[i][3][candidate]);
     upgradeTexts[0].visible = true;
@@ -240,7 +242,38 @@ buy.over = function() {
     upgradeTexts[3].visible = true;
     upgradeTexts[5].visible = true;
     upgradeTexts[5].setText(upgradeCatalogue[i][4][candidate]);
+
+    buy.moveText();
 };
+
+buy.moveText = function() {
+    var upPos = {};
+    upPos.title = {
+        x: Math.floor(upgradeBox.left + upgradeBox.width * 0.05),
+        y: Math.floor(upgradeBox.top * 1.05)
+    }
+    upPos.price = {
+        x: Math.floor(upgradeBox.left + upgradeBox.width * 0.05),
+        y: Math.floor(upgradeBox.top * 1.25)
+    };
+    upPos.production = {
+        x: Math.floor(upgradeBox.left + upgradeBox.width * 0.05),
+        y: Math.floor(upgradeBox.top * 1.35)
+    };
+    upPos.quote = {
+        x: Math.floor(upgradeBox.left + upgradeBox.width * 0.05),
+        y: Math.floor(upgradeBox.top * 1.65)
+    };
+    
+    upgradeTexts[0].x = upPos.title.x;
+    upgradeTexts[0].y = upPos.title.y;
+    upgradeTexts[1].x = upPos.price.x;
+    upgradeTexts[1].y =  upPos.price.y;
+    upgradeTexts[3].x = upPos.production.x;
+    upgradeTexts[3].y =  upPos.production.y;
+    upgradeTexts[5].x = upPos.quote.x;
+    upgradeTexts[5].y =  upPos.quote.y;
+}
 
 buy.starOver = function() {
     starText.visible = true;
