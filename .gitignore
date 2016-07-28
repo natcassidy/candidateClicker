@@ -1,14 +1,6 @@
 desktop.ini
-backend/.dpd/pids/mongod
-backend/.dpd/pids/mongod
 backend/data
 backend/.dpd
-backend/.dpd/pids/mongod
 *.0
 *.ns
 *.lock
-backend/.dpd/pids/mongod
-backend/.dpd/pids/mongod
-*.lock
-backend/.dpd/pids/mongod
-backend/data/mongod.lock
