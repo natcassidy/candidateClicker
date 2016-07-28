@@ -10,3 +10,8 @@ backend/resources/users/validate.js
 *.lock
 backend/data/mongod.lock
 backend/.dpd/pids/mongod
+backend/.dpd/pids/mongod
+*.lock
+backend/.dpd/pids/mongod
+*.lock
+backend/resources/users/put.js
