@@ -10,3 +10,5 @@ backend/.dpd/pids/mongod
 backend/.dpd/pids/mongod
 backend/.dpd/pids/mongod
 *.lock
+backend/.dpd/pids/mongod
+backend/data/mongod.lock

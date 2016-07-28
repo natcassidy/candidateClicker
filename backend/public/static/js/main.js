@@ -157,6 +157,9 @@ myGame.main.prototype = {
         this.volOff.inputEnabled = true;
         this.volOff.events.onInputDown.add(this.volSelectOn, this);
         this.volOff.visible = false;
+
+        this.nextButton = this.add.sprite(480, 400, 'nextButton');
+        
     },
 
     update: function() { // -UPDATE-
