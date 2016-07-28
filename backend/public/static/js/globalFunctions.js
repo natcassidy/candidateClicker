@@ -222,6 +222,8 @@ var buy = {
     prIncrease: 1.5
 };
 
+
+
 buy.buy = function() {
     for (var i = 0; i < buttons.length; i++) {
         if (buttons[i].buy.input.pointerOver()) {

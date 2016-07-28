@@ -159,6 +159,13 @@ myGame.main.prototype = {
         }
         this.frameCounter++;
 
+
+        //fancypens bonus
+
+        perSecCal = playerData.fancyPens * 2;
+        console.log(perSecCal);
+
+
         //reseting this.frameCounter every 1000th frame
         if (this.frameCounter === 1000) {
             this.frameCounter = 0;
@@ -441,3 +448,4 @@ myGame.main.prototype = {
         upgradeTexts[4] = 'Current: ';
     }
 }
+
