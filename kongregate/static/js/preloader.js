@@ -22,7 +22,7 @@ myGame.preloader.prototype = {
         this.load.onFileComplete.add(this.fileComplete, this);
         this.load.onLoadComplete.add(this.loadComplete, this);
 
-        this.text = this.add.text(game.width / 2, game.height / 2.5, "Music By Joe Markle", {
+        this.text = this.add.text(game.width / 2, game.height / 2.5, "Music By Exothermic", {
         fill: '#ffffff' 
         });
 
@@ -92,10 +92,7 @@ myGame.preloader.prototype = {
     },
 
     update: function() {
-
-        if (playerData.selectedCandidate === 'trump' || playerData.selectedCandidate === 'clinton') {
-            this.state.start('main', true, false);
-        } else { this.state.start('mainMenu', true, false); }
+        this.state.start('message', true, false);
     },
 
     fileComplete: function(progress) {
