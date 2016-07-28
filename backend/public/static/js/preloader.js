@@ -89,6 +89,14 @@ myGame.preloader.prototype = {
         this.load.image('box', 'static/images/cclicker/web/box.png');
 
         this.load.image('buttonRestart', 'static/images/cclicker/web/buttonRestart.png');
+
+
+        //instructionscreens
+
+        this.load.image('instructionsOne', 'static/images/cclicker/web/instructions1.png');
+        this.load.image('instructionsTwo', 'static/images/cclicker/web/instructions2.png');
+        this.load.image('nextButton', 'static/images/cclicker/web/nextButton.png');
+        this.load.image('startButton', 'static/images/cclicker/web/startButton.png');
     },
 
     create: function() {},

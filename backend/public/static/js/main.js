@@ -20,6 +20,8 @@ myGame.main.prototype = {
         this.hQuarter = Math.floor(game.height / 4);
         this.hTenth = Math.floor(game.height / 10);
 
+        game.input.mouse.capture = true;
+
         // Background images --HANDLES SELECTION OF CANDIDATE FROM MAINMENU--
         if (playerData.selectedCandidate === 'trump') {
             this.bg = game.add.image(0, 0, 'backgroundTrump');
