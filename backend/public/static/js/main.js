@@ -20,6 +20,14 @@ myGame.main.prototype = {
         this.hQuarter = Math.floor(game.height / 4);
         this.hTenth = Math.floor(game.height / 10);
 
+
+        //zxc
+        var keyZ = game.input.keyboard.addKey(Phaser.Keyboard.Z);
+        keyZ.onDown.add(this.xZ, this);
+
+        game.input.mouse.capture = true;
+
+
         //music
 
         this.music = game.add.audio('gameMusic');
@@ -132,7 +140,7 @@ myGame.main.prototype = {
 
          //restart
 
-        this.buttonRestart = this.add.sprite(17, 155, 'buttonRestart');
+        this.buttonRestart = this.add.sprite(17, 145, 'buttonRestart');
         this.buttonRestart.anchor.set(0.0);
         this.buttonRestart.inputEnabled = true;
         this.buttonRestart.events.onInputDown.add(this.restart, this);
@@ -216,6 +224,14 @@ myGame.main.prototype = {
             if (playerData.voteCredits > playerData.upgrades[k][4][0][0]) {
                 buttons[k].buy.alpha = 1;
             } else buttons[k].buy.alpha = 0.5;
+        }
+
+    },
+
+    xZ: function () {
+        if (game.input.activePointer.leftButton.isDown)
+        {
+            this.buy.buy * 25 
         }
 
     },
@@ -433,7 +449,7 @@ myGame.main.prototype = {
         //[1] = Price
         //[3] = Current Production
         //[5] = Quote
-        upgradeBox = game.add.image(280, 135, 'box');
+        upgradeBox = game.add.image(290, 135, 'box');
         upgradeBox.visible = false;
         upgradeTexts[0] = game.add.text(upPos.title.x, upPos.title.y, '', font);
         upgradeTexts[0].visible = false;

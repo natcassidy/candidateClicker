@@ -219,6 +219,9 @@ buy.buy = function() {
         but.numText.setText(fixNum(playerData.upgrades[i][0]));
         upgradeTexts[1].setText(upgradeTexts[2] + up[4][0][0]);
         upgradeTexts[3].setText(upgradeTexts[4] + Math.floor(productionCalc(up)) + ' per tick');
+        
+
+
     }
 };
 
