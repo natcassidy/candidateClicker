@@ -162,13 +162,6 @@ myGame.main.prototype = {
         }
         this.frameCounter++;
 
-
-        //fancypens bonus
-
-        perSecCal = playerData.fancyPens * 2;
-        console.log(perSecCal);
-
-
         //reseting this.frameCounter every 1000th frame
         if (this.frameCounter === 1000) {
             this.frameCounter = 0;
@@ -213,12 +206,7 @@ myGame.main.prototype = {
                             }
                             if (playerData.upgrades[i][3][n] === 1) { //if image is set to buyable but the purchase list array
                                 but.ups[n].loadTexture('starBought'); //says it was bought change image
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        }}}}}}
 
         //checking currency sufficiency for each buy button
         for (var k = 0; k < playerData.upgrades.length; k++) {
